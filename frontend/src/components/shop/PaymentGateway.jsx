@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx';
 import { Button } from '@/components/ui/button.jsx';
 import { Input } from '@/components/ui/input.jsx';
@@ -16,25 +16,35 @@ import {
   QrCode,
   Timer
 } from 'lucide-react';
+import { createPayment, verifyPayment, getSupportedCurrencies } from '@/lib/paymentApi.js';
 
-const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplete }) => {
+const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', orderId = null, onPaymentComplete }) => {
   const [selectedMethod, setSelectedMethod] = useState('bitcoin');
   const [paymentStatus, setPaymentStatus] = useState('pending'); // pending, processing, completed, failed
   const [transactionId, setTransactionId] = useState('');
   const [copied, setCopied] = useState(false);
-  const [timeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [paymentData, setPaymentData] = useState(null);
+  const [supportedCurrencies, setSupportedCurrencies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Mock Bitcoin address for payment
-  const mockBitcoinAddress = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa';
-  
-  // Mock payment methods
+  // Payment methods
   const paymentMethods = [
     {
       id: 'bitcoin',
       name: 'Bitcoin',
       icon: Bitcoin,
       description: 'Pay directly with Bitcoin',
-      fee: '0.0001 BTC',
+      currency: 'BTC',
+      supported: true
+    },
+    {
+      id: 'ethereum',
+      name: 'Ethereum',
+      icon: Wallet,
+      description: 'Pay with Ethereum',
+      currency: 'ETH',
       supported: true
     },
     {
@@ -42,10 +52,65 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
       name: 'Crypto Wallet',
       icon: Wallet,
       description: 'Connect your crypto wallet',
-      fee: '0.00005 BTC',
+      currency: currency,
       supported: true
     }
   ];
+
+  // Load supported currencies on mount
+  useEffect(() => {
+    const loadCurrencies = async () => {
+      try {
+        const currencies = await getSupportedCurrencies();
+        setSupportedCurrencies(currencies);
+      } catch (err) {
+        console.error('Failed to load currencies:', err);
+      }
+    };
+    loadCurrencies();
+  }, []);
+
+  // Create payment when component mounts or currency changes
+  useEffect(() => {
+    const initPayment = async () => {
+      if (paymentData) return; // Already initialized
+      
+      try {
+        setLoading(true);
+        const selectedCurrency = paymentMethods.find(m => m.id === selectedMethod)?.currency || currency;
+        const payment = await createPayment(orderTotal, selectedCurrency, orderId, {
+          method: selectedMethod
+        });
+        setPaymentData(payment);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to create payment:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    initPayment();
+  }, [orderTotal, currency, orderId, selectedMethod]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (paymentStatus !== 'pending') return;
+    
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 0) {
+          clearInterval(timer);
+          setPaymentStatus('expired');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, [paymentStatus]);
 
   // Format time for countdown
   const formatTime = (seconds) => {
@@ -65,38 +130,72 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
   };
 
   const handlePayment = async () => {
+    if (!paymentData) {
+      setError('Payment not initialized');
+      return;
+    }
+    
     setPaymentStatus('processing');
+    setLoading(true);
     
     try {
-      // Simulate payment processing
+      // Simulate user completing the transaction
+      // In production, this would wait for actual blockchain transaction
       await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // Mock transaction ID
-      const mockTxId = '0x' + Math.random().toString(16).substring(2, 18);
+      // Generate mock transaction hash
+      const mockTxId = '0x' + Math.random().toString(16).substring(2, 66);
       setTransactionId(mockTxId);
       
-      // Simulate success/failure (90% success rate)
-      const success = Math.random() > 0.1;
+      // Verify the payment with the backend
+      const verifiedPayment = await verifyPayment(paymentData.payment_id, mockTxId);
       
-      if (success) {
+      if (verifiedPayment.status === 'completed' || verifiedPayment.status === 'processing') {
         setPaymentStatus('completed');
         onPaymentComplete && onPaymentComplete({
           transactionId: mockTxId,
+          paymentId: paymentData.payment_id,
           amount: orderTotal,
-          currency: currency,
+          currency: paymentData.currency,
           method: selectedMethod
         });
       } else {
         setPaymentStatus('failed');
+        setError('Payment verification failed');
       }
     } catch (error) {
       console.error('Payment error:', error);
       setPaymentStatus('failed');
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const renderPaymentForm = () => {
-    if (selectedMethod === 'bitcoin') {
+    if (loading && !paymentData) {
+      return (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+          <p className="text-gray-400 mt-4">Initializing payment...</p>
+        </div>
+      );
+    }
+
+    if (error && !paymentData) {
+      return (
+        <div className="text-center py-8">
+          <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <p className="text-red-400">{error}</p>
+        </div>
+      );
+    }
+
+    if (selectedMethod === 'bitcoin' || selectedMethod === 'ethereum') {
+      const paymentAddress = paymentData?.payment_address || '';
+      const displayAmount = paymentData?.total_amount || orderTotal;
+      const displayCurrency = paymentData?.currency || currency;
+      
       return (
         <div className="space-y-4">
           <div className="text-center space-y-4">
@@ -106,17 +205,19 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
             </div>
             
             <div>
-              <Label className="text-gray-300">Send Bitcoin to this address:</Label>
+              <Label className="text-gray-300">
+                Send {selectedMethod === 'ethereum' ? 'Ethereum' : 'Bitcoin'} to this address:
+              </Label>
               <div className="flex items-center gap-2 mt-2">
                 <Input
-                  value={mockBitcoinAddress}
+                  value={paymentAddress}
                   readOnly
                   className="bg-gray-700 border-gray-600 text-white font-mono text-sm"
                 />
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => copyToClipboard(mockBitcoinAddress)}
+                  onClick={() => copyToClipboard(paymentAddress)}
                   className="border-gray-600 text-gray-300 hover:bg-gray-700"
                 >
                   {copied ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -125,7 +226,7 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
             </div>
 
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">{orderTotal} {currency}</div>
+              <div className="text-2xl font-bold text-white">{displayAmount} {displayCurrency}</div>
               <div className="text-sm text-gray-400">Exact amount required</div>
             </div>
           </div>
@@ -144,8 +245,12 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
             </div>
             
             <div className="space-y-2">
-              <div className="text-xl font-bold text-white">{orderTotal} {currency}</div>
-              <div className="text-sm text-gray-400">Network fee: 0.00005 BTC</div>
+              <div className="text-xl font-bold text-white">
+                {paymentData?.total_amount || orderTotal} {paymentData?.currency || currency}
+              </div>
+              <div className="text-sm text-gray-400">
+                Network fee: {paymentData?.network_fee || '0.00005'} {paymentData?.currency || currency}
+              </div>
             </div>
           </div>
         </div>
@@ -257,7 +362,6 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm text-gray-400">Fee: {method.fee}</div>
                         {method.supported && (
                           <Badge variant="outline" className="border-green-600 text-green-400 text-xs">
                             Supported
@@ -277,11 +381,19 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
               {/* Action Button */}
               <Button 
                 onClick={handlePayment}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                disabled={loading || !paymentData}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
               >
                 <CreditCard className="w-4 h-4 mr-2" />
-                Complete Payment
+                {loading ? 'Processing...' : 'Complete Payment'}
               </Button>
+
+              {error && (
+                <div className="flex items-center gap-2 p-3 bg-red-900/20 border border-red-700 rounded-lg text-sm text-red-400">
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -300,16 +412,20 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-gray-400">Order Total</span>
-                  <span className="text-white">{orderTotal} {currency}</span>
+                  <span className="text-white">{orderTotal} {paymentData?.currency || currency}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Network Fee</span>
-                  <span className="text-white">0.00005 {currency}</span>
+                  <span className="text-white">
+                    {paymentData?.network_fee || '0.00005'} {paymentData?.currency || currency}
+                  </span>
                 </div>
                 <Separator className="bg-gray-700" />
                 <div className="flex justify-between font-semibold">
                   <span className="text-white">Total</span>
-                  <span className="text-white">{(orderTotal + 0.00005).toFixed(6)} {currency}</span>
+                  <span className="text-white">
+                    {paymentData?.total_amount?.toFixed(6) || (orderTotal + 0.00005).toFixed(6)} {paymentData?.currency || currency}
+                  </span>
                 </div>
               </div>
 
