@@ -399,6 +399,137 @@ logging.basicConfig(
 
 ---
 
+## 🚀 Phase 3 Advanced Features Deployment
+
+### Phase 3 API Server
+
+The Phase 3 API server runs independently on port 5006 and includes all advanced features.
+
+#### Step 1: Verify Phase 3 Components
+
+```bash
+cd backend
+
+# Verify Phase 3 modules exist
+ls -l ai/advanced_models.py
+ls -l defi/defi_integration.py
+ls -l social/social_trading.py
+ls -l portfolio/portfolio_automation.py
+ls -l api/phase3_api.py
+
+# Run Phase 3 tests
+PYTHONPATH=$(pwd) python tests/test_phase3.py
+```
+
+#### Step 2: Start Phase 3 API Server
+
+```bash
+# Using startup script
+./scripts/start_phase3_api.sh
+
+# Or manually
+PYTHONPATH=$(pwd) python api/phase3_api.py
+```
+
+The Phase 3 API will start on `http://0.0.0.0:5006`.
+
+#### Step 3: Verify Phase 3 Endpoints
+
+```bash
+# Health check
+curl http://localhost:5006/api/phase3/health
+
+# Status check
+curl http://localhost:5006/api/phase3/status
+
+# Test AI endpoint
+curl -X POST http://localhost:5006/api/phase3/ai/lstm/predict \
+  -H "Content-Type: application/json" \
+  -d '{"symbol": "BTC", "data": [50000, 51000, 50500, 52000, 51500]}'
+
+# Test DeFi endpoint
+curl "http://localhost:5006/api/phase3/defi/dex/quote?tokenIn=ETH&tokenOut=USDT&amountIn=1.0"
+```
+
+#### Step 4: Production Configuration
+
+For production deployment, configure both Core API (port 5000) and Phase 3 API (port 5006):
+
+```nginx
+# Nginx configuration
+server {
+    listen 80;
+    server_name api.yourdomain.com;
+    
+    # Core API
+    location /api/ {
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+    
+    # Phase 3 API
+    location /api/phase3/ {
+        proxy_pass http://localhost:5006;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+#### Step 5: Docker Deployment (Optional)
+
+Add Phase 3 API to docker-compose.yml:
+
+```yaml
+services:
+  phase3-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: python api/phase3_api.py
+    ports:
+      - "5006:5006"
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - crs-network
+```
+
+#### Step 6: Monitoring Phase 3 API
+
+```bash
+# Check if Phase 3 API is running
+ps aux | grep phase3_api.py
+
+# Monitor logs
+tail -f logs/phase3_api.log
+
+# Test all endpoints
+./scripts/test_phase3_endpoints.sh
+```
+
+### Phase 3 Feature Demo
+
+Run the interactive demo to see all Phase 3 features in action:
+
+```bash
+cd /home/runner/work/crs/crs
+PYTHONPATH=/home/runner/work/crs/crs/backend python3 scripts/demo_phase3.py
+```
+
+### Phase 3 Resources
+
+- **[API Reference](API_REFERENCE.md)** - Complete Phase 3 API documentation
+- **[Developer Guide](DEVELOPER_GUIDE.md)** - Contributing to Phase 3
+- **[Feature Guides](FEATURE_GUIDES/)** - Detailed feature documentation
+- **[CHANGELOG](../CHANGELOG.md)** - Version history and release notes
+
+---
+
 ## 📞 **Support**
 
 For deployment issues or questions:
@@ -407,6 +538,12 @@ For deployment issues or questions:
 3. Test individual components
 4. Verify configuration files
 5. Check network connectivity
+6. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues
+
+**Phase 3 Documentation:**
+- API Reference: [API_REFERENCE.md](API_REFERENCE.md)
+- Developer Guide: [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)
+- Feature Guides: [FEATURE_GUIDES/](FEATURE_GUIDES/)
 
 **Current Live Deployments:**
 - Frontend: https://pdfumwkk.manus.space
@@ -414,5 +551,5 @@ For deployment issues or questions:
 
 ---
 
-*© 2025 Global AI Marketplace - Advanced AI Trading Platform*
+*© 2024 CRS Cryptocurrency Marketplace - Phase 3 Complete ✅ - Advanced AI Trading Platform*
 
