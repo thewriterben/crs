@@ -22,6 +22,28 @@ from defi.defi_integration import (
     DEXAggregator, YieldFarmingManager, StakingManager, LiquidityPoolManager
 )
 
+# Import social trading and portfolio automation modules
+from social.social_trading import CopyTradingSystem, TradingSignalsGenerator, PortfolioSharingSystem
+from portfolio.portfolio_automation import (
+    PortfolioRebalancer, RiskManagementSystem, DollarCostAveragingSystem, StopLossAutomation
+)
+
+# Initialize social trading systems
+copy_trading = CopyTradingSystem()
+trading_signals = TradingSignalsGenerator()
+portfolio_sharing = PortfolioSharingSystem()
+
+# Initialize portfolio automation systems
+portfolio_rebalancer = PortfolioRebalancer()
+risk_manager = RiskManagementSystem()
+dca_system = DollarCostAveragingSystem()
+stop_loss_automation = StopLossAutomation()
+
+
+# ==================== Social Trading Endpoints ====================
+
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -459,6 +481,249 @@ def get_liquidity_positions():
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
+@app.route('/api/phase3/social/traders/top', methods=['GET'])
+def get_top_traders():
+    """Get top performing traders"""
+    try:
+        limit = int(request.args.get('limit', 10))
+        traders = copy_trading.get_top_traders(limit=limit)
+        
+        return jsonify({
+            'success': True,
+            'traders': traders,
+            'count': len(traders),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/social/traders/follow', methods=['POST'])
+def follow_trader():
+    """Follow a trader for copy trading"""
+    try:
+        data = request.get_json()
+        follower_id = data.get('followerId', 'demo_user')
+        trader_id = data.get('traderId')
+        copy_amount = float(data.get('copyAmount', 1000))
+        
+        result = copy_trading.follow_trader(follower_id, trader_id, copy_amount)
+        
+        return jsonify({
+            **result,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/social/signals', methods=['GET'])
+def get_trading_signals():
+    """Get AI-generated trading signals"""
+    try:
+        symbol = request.args.get('symbol', None)
+        signals = trading_signals.get_signals(symbol=symbol)
+        
+        # Convert datetime objects to strings
+        for signal in signals:
+            if 'created_at' in signal and isinstance(signal['created_at'], datetime):
+                signal['created_at'] = signal['created_at'].isoformat()
+        
+        return jsonify({
+            'success': True,
+            'signals': signals,
+            'count': len(signals),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/social/portfolios/featured', methods=['GET'])
+def get_featured_portfolios():
+    """Get featured portfolios"""
+    try:
+        sort_by = request.args.get('sortBy', 'followers')
+        portfolios = portfolio_sharing.get_featured_portfolios(sort_by=sort_by)
+        
+        return jsonify({
+            'success': True,
+            'portfolios': portfolios,
+            'count': len(portfolios),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# ==================== Portfolio Automation Endpoints ====================
+
+@app.route('/api/phase3/portfolio/rebalance/analyze', methods=['POST'])
+def analyze_rebalance():
+    """Analyze portfolio for rebalancing needs"""
+    try:
+        data = request.get_json()
+        current_allocation = data.get('currentAllocation', {})
+        target_allocation = data.get('targetAllocation', {})
+        
+        analysis = portfolio_rebalancer.analyze_portfolio(current_allocation, target_allocation)
+        
+        return jsonify({
+            'success': True,
+            **analysis
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/rebalance/orders', methods=['POST'])
+def generate_rebalance_orders():
+    """Generate orders to rebalance portfolio"""
+    try:
+        data = request.get_json()
+        portfolio_value = float(data.get('portfolioValue', 100000))
+        drifts = data.get('drifts', {})
+        
+        orders = portfolio_rebalancer.generate_rebalance_orders(portfolio_value, drifts)
+        
+        return jsonify({
+            'success': True,
+            'orders': orders,
+            'count': len(orders),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/risk/assess', methods=['POST'])
+def assess_portfolio_risk():
+    """Assess portfolio risk"""
+    try:
+        data = request.get_json()
+        positions = data.get('positions', [])
+        
+        assessment = risk_manager.assess_portfolio_risk(positions)
+        
+        return jsonify({
+            'success': True,
+            **assessment,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/position-size', methods=['POST'])
+def calculate_position_size():
+    """Calculate optimal position size"""
+    try:
+        data = request.get_json()
+        portfolio_value = float(data.get('portfolioValue', 100000))
+        risk_per_trade = float(data.get('riskPerTrade', 0.02))
+        stop_loss_pct = float(data.get('stopLossPct', 0.05))
+        
+        result = risk_manager.calculate_position_size(portfolio_value, risk_per_trade, stop_loss_pct)
+        
+        return jsonify({
+            'success': True,
+            **result,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/dca/create', methods=['POST'])
+def create_dca_schedule():
+    """Create DCA schedule"""
+    try:
+        data = request.get_json()
+        user_id = data.get('userId', 'demo_user')
+        asset = data.get('asset')
+        amount = float(data.get('amount'))
+        frequency = data.get('frequency', 'weekly')
+        duration = int(data.get('durationMonths', 12))
+        
+        schedule = dca_system.create_dca_schedule(user_id, asset, amount, frequency, duration)
+        
+        # Convert datetime objects
+        schedule['started_at'] = schedule['started_at'].isoformat()
+        schedule['next_execution'] = schedule['next_execution'].isoformat()
+        
+        return jsonify({
+            'success': True,
+            'schedule': schedule,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/dca/schedules', methods=['GET'])
+def get_dca_schedules():
+    """Get active DCA schedules"""
+    try:
+        user_id = request.args.get('userId', 'demo_user')
+        schedules = dca_system.get_active_schedules(user_id)
+        
+        return jsonify({
+            'success': True,
+            'schedules': schedules,
+            'count': len(schedules),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/stop-loss/create', methods=['POST'])
+def create_stop_loss():
+    """Create trailing stop loss order"""
+    try:
+        data = request.get_json()
+        position_id = data.get('positionId')
+        symbol = data.get('symbol')
+        entry_price = float(data.get('entryPrice'))
+        trailing_pct = float(data.get('trailingPct', 0.05))
+        take_profit_pct = data.get('takeProfitPct')
+        
+        if take_profit_pct:
+            take_profit_pct = float(take_profit_pct)
+        
+        order = stop_loss_automation.create_trailing_stop(
+            position_id, symbol, entry_price, trailing_pct, take_profit_pct
+        )
+        
+        # Convert datetime
+        order['created_at'] = order['created_at'].isoformat()
+        
+        return jsonify({
+            'success': True,
+            'order': order,
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+@app.route('/api/phase3/portfolio/stop-loss/active', methods=['GET'])
+def get_active_stops():
+    """Get active stop loss orders"""
+    try:
+        position_id = request.args.get('positionId', None)
+        orders = stop_loss_automation.get_active_stops(position_id=position_id)
+        
+        return jsonify({
+            'success': True,
+            'orders': orders,
+            'count': len(orders),
+            'timestamp': datetime.now().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 # ==================== Status and Health Endpoints ====================
 
 @app.route('/api/phase3/status', methods=['GET'])
@@ -516,6 +781,20 @@ if __name__ == '__main__':
     print("  GET  /api/phase3/defi/liquidity/pools - Liquidity pools")
     print("  POST /api/phase3/defi/liquidity/add - Add liquidity")
     print("  GET  /api/phase3/defi/liquidity/positions - Get liquidity positions")
+    print("\nSocial Trading:")
+    print("  GET  /api/phase3/social/traders/top - Top traders")
+    print("  POST /api/phase3/social/traders/follow - Follow trader")
+    print("  GET  /api/phase3/social/signals - Trading signals")
+    print("  GET  /api/phase3/social/portfolios/featured - Featured portfolios")
+    print("\nPortfolio Automation:")
+    print("  POST /api/phase3/portfolio/rebalance/analyze - Analyze rebalancing")
+    print("  POST /api/phase3/portfolio/rebalance/orders - Generate orders")
+    print("  POST /api/phase3/portfolio/risk/assess - Assess risk")
+    print("  POST /api/phase3/portfolio/position-size - Calculate position size")
+    print("  POST /api/phase3/portfolio/dca/create - Create DCA schedule")
+    print("  GET  /api/phase3/portfolio/dca/schedules - Get DCA schedules")
+    print("  POST /api/phase3/portfolio/stop-loss/create - Create stop loss")
+    print("  GET  /api/phase3/portfolio/stop-loss/active - Get active stops")
     print("\nStatus:")
     print("  GET  /api/phase3/status - Feature status")
     print("  GET  /api/phase3/health - Health check")
