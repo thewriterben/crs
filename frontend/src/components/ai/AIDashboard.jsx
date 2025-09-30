@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '@/lib/api.js';
+import { useWebSocket } from '@/hooks/useWebSocket.js';
 import './AIDashboard.css';
 
 const AIDashboard = () => {
@@ -9,13 +10,6 @@ const AIDashboard = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('BTC');
   const [activeTab, setActiveTab] = useState('overview');
 
-  useEffect(() => {
-    fetchDashboardData();
-    const interval = setInterval(fetchDashboardData, 30000); // Update every 30 seconds
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchDashboardData = async () => {
     try {
       const data = await api.ai.getDashboardData();
       setDashboardData(data);
@@ -26,28 +20,37 @@ const AIDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value);
-  };
+  useEffect(() => {
+    fetchDashboardData();
+    const interval = setInterval(fetchDashboardData, 30000); // Update every 30 seconds
+    return () => clearInterval(interval);
+  }, [fetchDashboardData]);
 
-  const formatPercentage = (value) => {
+  // Memoize formatters to avoid recreating on every render
+  const formatCurrency = useMemo(() => {
+    return (value) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    };
+  }, []);
+
+  const formatPercentage = useCallback((value) => {
     return `${(value * 100).toFixed(2)}%`;
-  };
+  }, []);
 
-  const getSentimentColor = (sentiment) => {
+  const getSentimentColor = useCallback((sentiment) => {
     if (sentiment > 0.3) return '#10b981'; // Green
     if (sentiment < -0.3) return '#ef4444'; // Red
     return '#f59e0b'; // Yellow
-  };
+  }, []);
 
-  const getRecommendationColor = (recommendation) => {
+  const getRecommendationColor = useCallback((recommendation) => {
     switch (recommendation) {
       case 'STRONG_BUY': return '#10b981';
       case 'BUY': return '#22c55e';
@@ -56,7 +59,7 @@ const AIDashboard = () => {
       case 'STRONG_SELL': return '#ef4444';
       default: return '#6b7280';
     }
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -87,8 +90,14 @@ const AIDashboard = () => {
     <div className="ai-dashboard">
       <div className="dashboard-header">
         <h1>🤖 AI Analytics Dashboard</h1>
-        <div className="last-updated">
-          Last updated: {new Date(dashboardData?.timestamp).toLocaleTimeString()}
+        <div className="header-info">
+          <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+            <span className="status-indicator"></span>
+            {isConnected ? 'Live' : 'Offline'}
+          </div>
+          <div className="last-updated">
+            Last updated: {new Date(dashboardData?.timestamp).toLocaleTimeString()}
+          </div>
         </div>
       </div>
 

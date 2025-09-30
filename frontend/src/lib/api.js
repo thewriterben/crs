@@ -1,7 +1,11 @@
 // API utility functions for backend integration
-const API_BASE_URL = typeof process !== 'undefined' && process.env?.NODE_ENV === 'production' 
+const API_BASE_URL = import.meta.env.PROD
   ? '/api' 
   : 'http://localhost:5000/api';
+
+// Simple in-memory cache
+const cache = new Map();
+const CACHE_DURATION = 30000; // 30 seconds
 
 class ApiError extends Error {
   constructor(message, status) {
@@ -11,7 +15,41 @@ class ApiError extends Error {
   }
 }
 
+const getCacheKey = (endpoint, options) => {
+  return `${endpoint}-${JSON.stringify(options)}`;
+};
+
+const getCachedData = (key) => {
+  const cached = cache.get(key);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+  return null;
+};
+
+const setCachedData = (key, data) => {
+  cache.set(key, {
+    data,
+    timestamp: Date.now()
+  });
+  
+  // Clean up old cache entries (keep only last 50)
+  if (cache.size > 50) {
+    const firstKey = cache.keys().next().value;
+    cache.delete(firstKey);
+  }
+};
+
 const apiRequest = async (endpoint, options = {}) => {
+  // Check cache first for GET requests
+  if (!options.method || options.method === 'GET') {
+    const cacheKey = getCacheKey(endpoint, options);
+    const cachedData = getCachedData(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
+  }
+
   const url = `${API_BASE_URL}${endpoint}`;
   const defaultOptions = {
     headers: {
@@ -26,7 +64,15 @@ const apiRequest = async (endpoint, options = {}) => {
       throw new ApiError(`HTTP error! status: ${response.status}`, response.status);
     }
     
-    return await response.json();
+    const data = await response.json();
+    
+    // Cache GET requests
+    if (!options.method || options.method === 'GET') {
+      const cacheKey = getCacheKey(endpoint, options);
+      setCachedData(cacheKey, data);
+    }
+    
+    return data;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;

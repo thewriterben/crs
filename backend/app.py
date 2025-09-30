@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """
 Main Flask app for AI Marketplace Backend
-Deployable version of the simple AI API
+Deployable version of the simple AI API with WebSocket support
 """
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_caching import Cache
+from flask_compress import Compress
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import json
 from datetime import datetime
 import os
@@ -13,20 +17,30 @@ import os
 app = Flask(__name__)
 CORS(app, origins="*")
 
+
 @app.route('/', methods=['GET'])
+@cache.cached(timeout=300)  # Cache for 5 minutes
 def home():
     """Home endpoint"""
     return jsonify({
         'message': 'AI Marketplace Backend API',
         'version': '1.0.0',
         'status': 'operational',
+        'features': {
+            'rest_api': True,
+            'websocket': socketio is not None,
+            'real_time_streaming': socketio is not None
+        },
         'endpoints': [
             '/api/ai/dashboard-data',
             '/api/ai/status'
-        ]
+        ],
+        'websocket': '/socket.io' if socketio else 'not available'
     })
 
 @app.route('/api/ai/status', methods=['GET'])
+@cache.cached(timeout=60)  # Cache for 1 minute
+@limiter.limit("30 per minute")
 def ai_status():
     """AI system status endpoint"""
     return jsonify({
@@ -36,11 +50,14 @@ def ai_status():
             'prediction_engine': 'active',
             'sentiment_analysis': 'active', 
             'trading_bots': 'active',
-            'portfolio_optimization': 'active'
+            'portfolio_optimization': 'active',
+            'real_time_streaming': 'active' if socketio else 'unavailable'
         }
     })
 
 @app.route('/api/ai/dashboard-data', methods=['GET'])
+@cache.cached(timeout=30)  # Cache for 30 seconds - frequently updated data
+@limiter.limit("60 per minute")
 def dashboard_data():
     """Main dashboard data endpoint"""
     return jsonify({
@@ -163,7 +180,24 @@ def dashboard_data():
         ]
     })
 
+@app.after_request
+def add_cache_headers(response):
+    """Add cache control headers to responses"""
+    if request.endpoint and 'api' in request.endpoint:
+        # API endpoints - short cache
+        response.headers['Cache-Control'] = 'public, max-age=30'
+    return response
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    
+    if socketio:
+        print(f"Starting server with WebSocket support on port {port}")
+        # Use eventlet for WebSocket support
+        import eventlet
+        eventlet.monkey_patch()
+        socketio.run(app, host='0.0.0.0', port=port, debug=False)
+    else:
+        print(f"Starting server without WebSocket support on port {port}")
+        app.run(host='0.0.0.0', port=port, debug=False)
 

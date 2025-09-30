@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useWebSocket } from '@/hooks/useWebSocket.js';
 import './NewCapabilitiesDashboard.css';
 
 const NewCapabilitiesDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // WebSocket integration for real-time updates
+  const { 
+    isConnected, 
+    marketData, 
+    sentimentData, 
+    tradingSignals,
+    lastUpdate 
+  } = useWebSocket({ 
+    autoConnect: true, 
+    symbols: ['BTC', 'ETH', 'ADA', 'DOT', 'LINK'] 
+  });
 
   useEffect(() => {
     // Sample data for demonstration
@@ -122,11 +135,38 @@ const NewCapabilitiesDashboard = () => {
     };
 
     fetchData();
-    
-    // Set up auto-refresh every 30 seconds
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
   }, []);
+
+  // Update dashboard with real-time market data from WebSocket
+  useEffect(() => {
+    if (dashboardData && marketData && Object.keys(marketData).length > 0) {
+      const btcData = marketData['BTC'];
+      if (btcData) {
+        setDashboardData(prev => ({
+          ...prev,
+          market_analysis: {
+            ...prev.market_analysis,
+            btc_price: btcData.price,
+            btc_trend: btcData.change_24h > 0
+          }
+        }));
+      }
+    }
+  }, [marketData]);
+
+  // Update sentiment data from WebSocket
+  useEffect(() => {
+    if (dashboardData && sentimentData) {
+      setDashboardData(prev => ({
+        ...prev,
+        news_sentiment: {
+          ...prev.news_sentiment,
+          overall_sentiment: sentimentData.overall_sentiment,
+          trending_topics: sentimentData.trending_topics || prev.news_sentiment.trending_topics
+        }
+      }));
+    }
+  }, [sentimentData]);
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-US', {
@@ -153,8 +193,14 @@ const NewCapabilitiesDashboard = () => {
   return (
     <div className="new-capabilities-dashboard">
       <div className="dashboard-header">
-        <h1>🚀 Advanced AI Marketplace Capabilities</h1>
-        <p>Professional-grade trading, analytics, and portfolio management</p>
+        <div>
+          <h1>🚀 Advanced AI Marketplace Capabilities</h1>
+          <p>Professional-grade trading, analytics, and portfolio management</p>
+        </div>
+        <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+          <span className="status-indicator"></span>
+          {isConnected ? 'Live Updates' : 'Offline'}
+        </div>
       </div>
 
       <div className="capabilities-tabs">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { 
   Search, 
@@ -15,18 +15,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx';
-import { AuthProvider, useAuth } from '@/contexts/AuthContext.jsx';
-import Login from './components/auth/Login.jsx';
-import Register from './components/auth/Register.jsx';
-import UserProfile from './components/auth/UserProfile.jsx';
-import AIDashboard from './components/ai/AIDashboard.jsx';
-import NewCapabilitiesDashboard from './components/ai/NewCapabilitiesDashboard.jsx';
-import ProductCatalog from './components/shop/ProductCatalog.jsx';
-import ShoppingCart from './components/shop/ShoppingCart.jsx';
-import PaymentGateway from './components/shop/PaymentGateway.jsx';
-import './App.css';
-
-// Main App Component with AuthProvider
 function App() {
   return (
     <AuthProvider>
@@ -245,12 +233,6 @@ function AppContent() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        {currentView === 'dashboard' && <AIDashboard />}
-        {currentView === 'capabilities' && <NewCapabilitiesDashboard />}
-        {currentView === 'marketplace' && <ProductCatalog />}
-        {currentView === 'cart' && <ShoppingCart />}
-        {currentView === 'portfolio' && <PortfolioPlaceholder />}
-        {currentView === 'profile' && <UserProfile />}
       </main>
     </div>
   );
