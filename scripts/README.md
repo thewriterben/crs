@@ -4,6 +4,83 @@ This directory contains utility scripts for deploying and managing the CRS Crypt
 
 ## Available Scripts
 
+### Backend Scripts (Python)
+
+#### validate_env.py
+
+Validates environment variables before backend startup to prevent deployment errors.
+
+**Location**: `backend/scripts/validate_env.py`
+
+**Usage**:
+```bash
+cd backend
+
+# Validate current environment
+python scripts/validate_env.py
+
+# Validate specific .env file
+python scripts/validate_env.py --env-file /path/to/.env
+
+# Show all detected environment variables (sensitive values masked)
+python scripts/validate_env.py --show-vars
+
+# Strict mode (treat warnings as errors)
+python scripts/validate_env.py --strict
+```
+
+**What It Validates**:
+- Required environment variables (SECRET_KEY, JWT_SECRET_KEY, DATABASE_URL)
+- Secret key strength (detects weak or default keys)
+- Database URL format and scheme validity
+- Flask environment configuration
+- Port numbers and boolean values
+- CORS origins configuration
+- Redis connection strings
+- Security issues (debug mode in production, wildcard CORS, etc.)
+
+**Exit Codes**:
+- `0` - Validation passed
+- `1` - Validation failed (errors found)
+
+**Features**:
+- Color-coded output for easy reading
+- Detailed error messages with suggestions
+- Distinguishes between errors and warnings
+- Production vs development mode awareness
+- Automatic .env file loading (requires python-dotenv)
+
+**Example Output**:
+```bash
+======================================================================
+Environment Variable Validation Report
+======================================================================
+
+ℹ️  Information:
+  • Loaded environment variables from /path/to/.env
+
+⚠️  Warnings:
+  • [CORS_ORIGINS] Using wildcard (*) for CORS in production is not recommended.
+
+❌ Errors:
+  • [SECRET_KEY] Using default or weak secret key.
+    Generate with: python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+======================================================================
+❌ Validation failed with 1 error(s) and 1 warning(s)
+```
+
+**Best Practices**:
+1. Run validation before starting the backend in production
+2. Fix all errors before deployment
+3. Address warnings to improve security
+4. Use `--strict` mode in CI/CD pipelines
+5. Keep sensitive values in `.env` files, not in code
+
+---
+
+### Deployment Scripts (Shell)
+
 ### health-check.sh
 
 Comprehensive health check script that verifies all services are running correctly.
