@@ -20,10 +20,9 @@ import {
 const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplete }) => {
   const [selectedMethod, setSelectedMethod] = useState('bitcoin');
   const [paymentStatus, setPaymentStatus] = useState('pending'); // pending, processing, completed, failed
-  const [walletAddress, setWalletAddress] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [copied, setCopied] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
+  const [timeLeft] = useState(15 * 60); // 15 minutes in seconds
 
   // Mock Bitcoin address for payment
   const mockBitcoinAddress = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa';
@@ -91,6 +90,7 @@ const PaymentGateway = ({ orderTotal = 0.001, currency = 'BTC', onPaymentComplet
         setPaymentStatus('failed');
       }
     } catch (error) {
+      console.error('Payment error:', error);
       setPaymentStatus('failed');
     }
   };

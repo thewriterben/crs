@@ -107,6 +107,7 @@ const ShoppingCartComponent = () => {
         setTimeout(() => setCheckoutStatus(null), 3000);
       }
     } catch (error) {
+      console.error('Checkout error:', error);
       setCheckoutStatus('error');
       setTimeout(() => setCheckoutStatus(null), 3000);
     } finally {
