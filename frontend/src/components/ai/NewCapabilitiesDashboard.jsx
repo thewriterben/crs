@@ -5,55 +5,54 @@ const NewCapabilitiesDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // Sample data for demonstration
-  const sampleData = {
-    portfolio_optimization: {
-      optimal_allocation: {
-        'BTC': 0.35,
-        'ETH': 0.25,
-        'ADA': 0.20,
-        'DOT': 0.12,
-        'LINK': 0.08
-      },
-      expected_return: 0.1847,
-      volatility: 0.2156,
-      sharpe_ratio: 0.8567,
-      risk_metrics: {
-        var_95: 12500.00,
-        max_drawdown: -0.1234,
-        beta: 1.15
-      }
-    },
-    market_analysis: {
-      btc_price: 45234.56,
-      btc_trend: true,
-      rsi: 67.8,
-      macd: 234.5
-    },
-    news_sentiment: {
-      overall_sentiment: 'POSITIVE',
-      market_signals: 8,
-      trending_topics: ['bitcoin', 'ethereum', 'regulation', 'institutional', 'defi']
-    },
-    trading_performance: {
-      total_trades: 47,
-      total_volume: 125000.00,
-      total_fees: 187.50,
-      unrealized_pnl: 3450.00
-    },
-    active_features: {
-      portfolio_optimization: true,
-      advanced_charting: true,
-      ai_news_analysis: true,
-      algorithmic_trading: true,
-      risk_management: true,
-      pattern_recognition: true
-    }
-  };
 
   useEffect(() => {
+    // Sample data for demonstration
+    const sampleData = {
+      portfolio_optimization: {
+        optimal_allocation: {
+          'BTC': 0.35,
+          'ETH': 0.25,
+          'ADA': 0.20,
+          'DOT': 0.12,
+          'LINK': 0.08
+        },
+        expected_return: 0.1847,
+        volatility: 0.2156,
+        sharpe_ratio: 0.8567,
+        risk_metrics: {
+          var_95: 12500.00,
+          max_drawdown: -0.1234,
+          beta: 1.15
+        }
+      },
+      market_analysis: {
+        btc_price: 45234.56,
+        btc_trend: true,
+        rsi: 67.8,
+        macd: 234.5
+      },
+      news_sentiment: {
+        overall_sentiment: 'POSITIVE',
+        market_signals: 8,
+        trending_topics: ['bitcoin', 'ethereum', 'regulation', 'institutional', 'defi']
+      },
+      trading_performance: {
+        total_trades: 47,
+        total_volume: 125000.00,
+        total_fees: 187.50,
+        unrealized_pnl: 3450.00
+      },
+      active_features: {
+        portfolio_optimization: true,
+        advanced_charting: true,
+        ai_news_analysis: true,
+        algorithmic_trading: true,
+        risk_management: true,
+        pattern_recognition: true
+      }
+    };
+
     // Fetch real data from the working API
     const fetchData = async () => {
       try {
@@ -146,18 +145,6 @@ const NewCapabilitiesDashboard = () => {
         <div className="loading-container">
           <div className="loading-spinner"></div>
           <p>Loading Advanced AI Capabilities...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="new-capabilities-dashboard">
-        <div className="error-container">
-          <h3>Error Loading Dashboard</h3>
-          <p>{error}</p>
-          <button onClick={() => window.location.reload()}>Retry</button>
         </div>
       </div>
     );
