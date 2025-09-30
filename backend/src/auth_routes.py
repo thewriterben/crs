@@ -21,7 +21,23 @@ from .auth_utils import (
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
+# Import rate limiter
+try:
+    from .security_config import get_rate_limiter
+    limiter = get_rate_limiter()
+except ImportError:
+    limiter = None
+
+def rate_limit(limit_string):
+    """Decorator factory for rate limiting"""
+    def decorator(f):
+        if limiter:
+            return limiter.limit(limit_string)(f)
+        return f
+    return decorator
+
 @auth_bp.route('/register', methods=['POST'])
+@rate_limit("5 per minute")
 def register():
     """Register a new user"""
     try:
@@ -73,6 +89,7 @@ def register():
         return jsonify({'error': 'Registration failed', 'message': str(e)}), 500
 
 @auth_bp.route('/login', methods=['POST'])
+@rate_limit("10 per minute")
 def login():
     """Login user and return JWT tokens"""
     try:
