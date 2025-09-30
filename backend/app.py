@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Main Flask app for AI Marketplace Backend
-Deployable version of the simple AI API
+Deployable version of the simple AI API with WebSocket support
 """
 
 from flask import Flask, request, jsonify
@@ -13,6 +13,15 @@ import os
 app = Flask(__name__)
 CORS(app, origins="*")
 
+# Initialize WebSocket support
+try:
+    from websocket_service import init_socketio
+    socketio = init_socketio(app)
+    print("✓ WebSocket support enabled")
+except ImportError as e:
+    print(f"⚠ WebSocket support not available: {e}")
+    socketio = None
+
 @app.route('/', methods=['GET'])
 def home():
     """Home endpoint"""
@@ -20,10 +29,16 @@ def home():
         'message': 'AI Marketplace Backend API',
         'version': '1.0.0',
         'status': 'operational',
+        'features': {
+            'rest_api': True,
+            'websocket': socketio is not None,
+            'real_time_streaming': socketio is not None
+        },
         'endpoints': [
             '/api/ai/dashboard-data',
             '/api/ai/status'
-        ]
+        ],
+        'websocket': '/socket.io' if socketio else 'not available'
     })
 
 @app.route('/api/ai/status', methods=['GET'])
@@ -36,7 +51,8 @@ def ai_status():
             'prediction_engine': 'active',
             'sentiment_analysis': 'active', 
             'trading_bots': 'active',
-            'portfolio_optimization': 'active'
+            'portfolio_optimization': 'active',
+            'real_time_streaming': 'active' if socketio else 'unavailable'
         }
     })
 
@@ -165,5 +181,14 @@ def dashboard_data():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    
+    if socketio:
+        print(f"Starting server with WebSocket support on port {port}")
+        # Use eventlet for WebSocket support
+        import eventlet
+        eventlet.monkey_patch()
+        socketio.run(app, host='0.0.0.0', port=port, debug=False)
+    else:
+        print(f"Starting server without WebSocket support on port {port}")
+        app.run(host='0.0.0.0', port=port, debug=False)
 

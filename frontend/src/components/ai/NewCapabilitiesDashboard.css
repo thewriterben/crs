@@ -6,8 +6,14 @@
 }
 
 .dashboard-header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
+}
+
+.dashboard-header > div:first-child {
+  flex: 1;
 }
 
 .dashboard-header h1 {
@@ -22,6 +28,58 @@
 .dashboard-header p {
   font-size: 1.2rem;
   color: #cccccc;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.connection-status.connected {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.connection-status.disconnected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.connection-status.connected .status-indicator {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+}
+
+.connection-status.disconnected .status-indicator {
+  background: #ef4444;
+  animation: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
 }
 
 .capabilities-tabs {
