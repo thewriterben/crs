@@ -6,12 +6,36 @@ Deployable version of the simple AI API
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 app = Flask(__name__)
-CORS(app, origins="*")
+CORS(app, origins="*", supports_credentials=True)
+
+# Configuration
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'jwt-secret-key-change-in-production')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///marketplace.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize extensions
+from src.models import db, bcrypt
+from src.auth_routes import auth_bp
+
+db.init_app(app)
+bcrypt.init_app(app)
+jwt = JWTManager(app)
+
+# Register blueprints
+app.register_blueprint(auth_bp)
+
+# Create database tables
+with app.app_context():
+    db.create_all()
 
 @app.route('/', methods=['GET'])
 def home():
@@ -22,7 +46,13 @@ def home():
         'status': 'operational',
         'endpoints': [
             '/api/ai/dashboard-data',
-            '/api/ai/status'
+            '/api/ai/status',
+            '/api/auth/register',
+            '/api/auth/login',
+            '/api/auth/logout',
+            '/api/auth/refresh',
+            '/api/auth/verify',
+            '/api/auth/profile'
         ]
     })
 
