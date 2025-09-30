@@ -1,0 +1,44 @@
+{
+  "name": "cryptocurrency-marketplace",
+  "version": "1.0.0",
+  "description": "A comprehensive cryptocurrency marketplace combining AI-powered trading capabilities with modern e-commerce functionality",
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && python main.py",
+    "build": "cd frontend && npm run build",
+    "install:all": "npm install && cd frontend && npm install",
+    "setup:backend": "cd backend && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+    "lint": "cd frontend && npm run lint",
+    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "cryptocurrency",
+    "marketplace",
+    "ai",
+    "trading",
+    "ecommerce",
+    "portfolio",
+    "analytics",
+    "react",
+    "flask",
+    "machine-learning"
+  ],
+  "author": "CRS Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thewriterben/crs.git"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "python": ">=3.8.0"
+  }
+}

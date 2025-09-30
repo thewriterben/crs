@@ -1,0 +1,511 @@
+/* AI Dashboard Styles */
+.ai-dashboard {
+  padding: 20px;
+  background: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f7931a;
+}
+
+.dashboard-header h1 {
+  color: #f7931a;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.last-updated {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.dashboard-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 15px 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: #f7931a;
+}
+
+.tab.active {
+  color: #f7931a;
+  border-bottom-color: #f7931a;
+}
+
+/* Loading and Error States */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #333;
+  border-top: 4px solid #f7931a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.retry-button {
+  background: #f7931a;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.retry-button:hover {
+  background: #e8851e;
+}
+
+/* Overview Tab */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #f7931a;
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.stat-subtitle {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Trending Topics */
+.trending-topics {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.trending-topics h3 {
+  color: #f7931a;
+  margin: 0 0 20px 0;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.topic-card {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.topic-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.topic-mentions {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.topic-sentiment {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Predictions Tab */
+.symbol-selector {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.symbol-selector label {
+  color: #f7931a;
+  font-weight: bold;
+}
+
+.symbol-selector select {
+  background: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.prediction-details {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.prediction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.prediction-header h3 {
+  color: #f7931a;
+  margin: 0;
+}
+
+.recommendation-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.prediction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.prediction-card {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  text-align: center;
+}
+
+.prediction-card h4 {
+  color: #f7931a;
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+}
+
+.price-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.confidence-bar {
+  width: 100%;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: #f7931a;
+  transition: width 0.3s ease;
+}
+
+.confidence-text {
+  font-weight: bold;
+  color: #f7931a;
+}
+
+.model-consensus {
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.model-consensus h4 {
+  color: #f7931a;
+  margin: 0 0 15px 0;
+}
+
+.consensus-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.consensus-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #2a2a2a;
+  border-radius: 5px;
+}
+
+.model-name {
+  color: #888;
+  text-transform: capitalize;
+}
+
+.model-prediction {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Sentiment Tab */
+.sentiment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.sentiment-card {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  text-align: center;
+}
+
+.sentiment-symbol {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f7931a;
+  margin-bottom: 10px;
+}
+
+.sentiment-score {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.sentiment-details {
+  display: grid;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.market-intelligence {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.market-intelligence h3 {
+  color: #f7931a;
+  margin: 0 0 20px 0;
+}
+
+.intelligence-stats {
+  display: grid;
+  gap: 15px;
+}
+
+.intel-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: #1a1a1a;
+  border-radius: 5px;
+  border: 1px solid #444;
+}
+
+.intel-stat span:first-child {
+  color: #888;
+}
+
+.intel-stat span:last-child {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Bots Tab */
+.bots-overview {
+  background: #2a2a2a;
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  margin-bottom: 25px;
+}
+
+.bots-overview h3 {
+  color: #f7931a;
+  margin: 0 0 20px 0;
+}
+
+.bots-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.bot-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 1px solid #444;
+}
+
+.bot-stat span:first-child {
+  color: #888;
+}
+
+.bot-stat span:last-child {
+  color: #fff;
+  font-weight: bold;
+}
+
+.bots-list h4 {
+  color: #f7931a;
+  margin-bottom: 20px;
+}
+
+.bots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.bot-card {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #333;
+}
+
+.bot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.bot-name {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.bot-status {
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.bot-status.active {
+  background: #10b981;
+  color: #fff;
+}
+
+.bot-status.paused {
+  background: #f59e0b;
+  color: #000;
+}
+
+.bot-status.stopped {
+  background: #6b7280;
+  color: #fff;
+}
+
+.bot-details {
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.no-bots {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-dashboard {
+    padding: 15px;
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+  
+  .dashboard-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .stats-grid,
+  .prediction-grid,
+  .sentiment-grid,
+  .bots-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .prediction-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
+

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /sandbox/dash/
+Allow: /sandbox/
+Sitemap: https://cryptocornershop.com/sitemap.xml
