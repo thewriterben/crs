@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '@/lib/api.js';
 import { useWebSocket } from '@/hooks/useWebSocket.js';
 import './AIDashboard.css';
@@ -10,62 +10,6 @@ const AIDashboard = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('BTC');
   const [activeTab, setActiveTab] = useState('overview');
 
-  // WebSocket integration for real-time updates
-  const { 
-    isConnected, 
-    marketData, 
-    sentimentData, 
-    tradingSignals,
-    lastUpdate 
-  } = useWebSocket({ 
-    autoConnect: true, 
-    symbols: ['BTC', 'ETH', 'ADA', 'DOT', 'LINK'] 
-  });
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  // Update dashboard with real-time market data
-  useEffect(() => {
-    if (dashboardData && marketData && Object.keys(marketData).length > 0) {
-      setDashboardData(prev => ({
-        ...prev,
-        predictions: {
-          ...prev.predictions,
-          ...Object.entries(marketData).reduce((acc, [symbol, data]) => {
-            if (prev.predictions[symbol]) {
-              acc[symbol] = {
-                ...prev.predictions[symbol],
-                current_price: data.price,
-                price_change: data.change_24h,
-                timestamp: data.timestamp
-              };
-            }
-            return acc;
-          }, {})
-        },
-        timestamp: lastUpdate || prev.timestamp
-      }));
-    }
-  }, [marketData, lastUpdate]);
-
-  // Update sentiment data in real-time
-  useEffect(() => {
-    if (dashboardData && sentimentData) {
-      setDashboardData(prev => ({
-        ...prev,
-        market_intelligence: {
-          ...prev.market_intelligence,
-          market_fear_greed: sentimentData.market_fear_greed,
-          market_mood: sentimentData.market_mood,
-          market_sentiment: sentimentData.confidence
-        }
-      }));
-    }
-  }, [sentimentData]);
-
-  const fetchDashboardData = async () => {
     try {
       const data = await api.ai.getDashboardData();
       setDashboardData(data);
@@ -76,28 +20,37 @@ const AIDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value);
-  };
+  useEffect(() => {
+    fetchDashboardData();
+    const interval = setInterval(fetchDashboardData, 30000); // Update every 30 seconds
+    return () => clearInterval(interval);
+  }, [fetchDashboardData]);
 
-  const formatPercentage = (value) => {
+  // Memoize formatters to avoid recreating on every render
+  const formatCurrency = useMemo(() => {
+    return (value) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    };
+  }, []);
+
+  const formatPercentage = useCallback((value) => {
     return `${(value * 100).toFixed(2)}%`;
-  };
+  }, []);
 
-  const getSentimentColor = (sentiment) => {
+  const getSentimentColor = useCallback((sentiment) => {
     if (sentiment > 0.3) return '#10b981'; // Green
     if (sentiment < -0.3) return '#ef4444'; // Red
     return '#f59e0b'; // Yellow
-  };
+  }, []);
 
-  const getRecommendationColor = (recommendation) => {
+  const getRecommendationColor = useCallback((recommendation) => {
     switch (recommendation) {
       case 'STRONG_BUY': return '#10b981';
       case 'BUY': return '#22c55e';
@@ -106,7 +59,7 @@ const AIDashboard = () => {
       case 'STRONG_SELL': return '#ef4444';
       default: return '#6b7280';
     }
-  };
+  }, []);
 
   if (loading) {
     return (

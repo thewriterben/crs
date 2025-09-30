@@ -6,6 +6,10 @@ Deployable version of the simple AI API with WebSocket support
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_caching import Cache
+from flask_compress import Compress
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import json
 from datetime import datetime
 import os
@@ -13,16 +17,9 @@ import os
 app = Flask(__name__)
 CORS(app, origins="*")
 
-# Initialize WebSocket support
-try:
-    from websocket_service import init_socketio
-    socketio = init_socketio(app)
-    print("✓ WebSocket support enabled")
-except ImportError as e:
-    print(f"⚠ WebSocket support not available: {e}")
-    socketio = None
 
 @app.route('/', methods=['GET'])
+@cache.cached(timeout=300)  # Cache for 5 minutes
 def home():
     """Home endpoint"""
     return jsonify({
@@ -42,6 +39,8 @@ def home():
     })
 
 @app.route('/api/ai/status', methods=['GET'])
+@cache.cached(timeout=60)  # Cache for 1 minute
+@limiter.limit("30 per minute")
 def ai_status():
     """AI system status endpoint"""
     return jsonify({
@@ -57,6 +56,8 @@ def ai_status():
     })
 
 @app.route('/api/ai/dashboard-data', methods=['GET'])
+@cache.cached(timeout=30)  # Cache for 30 seconds - frequently updated data
+@limiter.limit("60 per minute")
 def dashboard_data():
     """Main dashboard data endpoint"""
     return jsonify({
@@ -178,6 +179,14 @@ def dashboard_data():
             }
         ]
     })
+
+@app.after_request
+def add_cache_headers(response):
+    """Add cache control headers to responses"""
+    if request.endpoint and 'api' in request.endpoint:
+        # API endpoints - short cache
+        response.headers['Cache-Control'] = 'public, max-age=30'
+    return response
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
