@@ -32,6 +32,13 @@ A comprehensive cryptocurrency marketplace combining AI-powered trading capabili
 - **Cryptocurrency payment processing (BTC, ETH, USDT, BNB)** ✨
 - Secure cryptocurrency transaction handling
 - Modern responsive UI with dark theme support
+- **User Authentication & Security**
+  - Secure login and registration
+  - JWT token-based authentication
+  - Password encryption with bcrypt
+  - Multi-factor authentication (MFA/2FA)
+  - Session management with automatic token refresh
+  - User profile management
 
 ## Project Structure
 
@@ -72,7 +79,6 @@ crs/
 - [ ] Set up routing and navigation
 
 ### Phase 3: Enhancement
-- [ ] Implement user authentication
 
 ### Phase 4: Deployment
 - [ ] Production build configuration
@@ -113,22 +119,6 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python app.py
-```
-
-The application will start with:
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000
-- WebSocket: ws://localhost:5000/socket.io
-
-### WebSocket Features
-The application includes real-time data streaming:
-- Live market price updates (every 2 seconds)
-- Sentiment analysis updates (every 10 seconds)
-- Trading signals (every 15 seconds)
-- Connection status indicators
-
-See [WebSocket Documentation](docs/WEBSOCKET_STREAMING.md) for detailed information.
 
 ### Build for Production
 ```bash

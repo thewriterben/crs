@@ -169,4 +169,185 @@ export const api = {
   }
 };
 
+// Authentication API
+export const authApi = {
+  register: async (username, email, password) => {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  login: async (username, password, mfaCode = null) => {
+    const body = { username, password };
+    if (mfaCode) {
+      body.mfa_code = mfaCode;
+    }
+
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      if (data.mfa_required) {
+        return data;
+      }
+      throw { response: { data } };
+    }
+    
+    return data;
+  },
+
+  logout: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  verifyToken: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/auth/verify`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  refreshToken: async (refreshToken) => {
+    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${refreshToken}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  getProfile: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  updateProfile: async (token, data) => {
+    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  changePassword: async (token, currentPassword, newPassword) => {
+    const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword })
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  enableMFA: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/auth/mfa/enable`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  },
+
+  disableMFA: async (token, password) => {
+    const response = await fetch(`${API_BASE_URL}/auth/mfa/disable`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ password })
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw { response: { data: error } };
+    }
+    
+    return await response.json();
+  }
+};
+
 export default api;
