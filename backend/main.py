@@ -34,7 +34,8 @@ def api_status():
             'trading_bots': True,
             'portfolio_optimization': True,
             'sentiment_analysis': True,
-            'advanced_charting': True
+            'advanced_charting': True,
+            'crypto_payments': True
         }
     })
 
@@ -58,6 +59,21 @@ except ImportError as e:
         return jsonify({
             'error': 'AI services not available',
             'message': 'AI modules are being configured'
+        }), 503
+
+# Try to import and register payment modules
+try:
+    from api.payment_api_server import payment_api
+    app.register_blueprint(payment_api, url_prefix='/api/payments')
+    print("Payment API routes registered successfully")
+except ImportError as e:
+    print(f"Warning: Could not import payment modules: {e}")
+    
+    @app.route('/api/payments/<path:path>')
+    def payment_fallback(path):
+        return jsonify({
+            'error': 'Payment services not available',
+            'message': 'Payment modules are being configured'
         }), 503
 
 # Marketplace API endpoints
