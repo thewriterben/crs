@@ -13,15 +13,14 @@
     "build": "cd frontend && npm run build",
     "build:prod": "NODE_ENV=production npm run build",
     "preview": "cd frontend && npm run preview",
-    "install:all": "npm install && cd frontend && npm install",
+    "install:all": "cd frontend && npm install",
     "setup:backend": "cd backend && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "lint": "cd frontend && npm run lint",
     "lint:fix": "cd frontend && npm run lint -- --fix",
     "test": "cd frontend && npm run test",
     "type-check": "cd frontend && npm run type-check",
     "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__",
-    "clean:all": "npm run clean && rm -rf node_modules package-lock.json frontend/package-lock.json",
-    "postinstall": "npm run install:all"
+    "clean:all": "npm run clean && rm -rf node_modules package-lock.json frontend/package-lock.json"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
