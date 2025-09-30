@@ -11,10 +11,17 @@
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && python main.py",
     "build": "cd frontend && npm run build",
+    "build:prod": "NODE_ENV=production npm run build",
+    "preview": "cd frontend && npm run preview",
     "install:all": "npm install && cd frontend && npm install",
     "setup:backend": "cd backend && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "lint": "cd frontend && npm run lint",
-    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__"
+    "lint:fix": "cd frontend && npm run lint -- --fix",
+    "test": "cd frontend && npm run test",
+    "type-check": "cd frontend && npm run type-check",
+    "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__",
+    "clean:all": "npm run clean && rm -rf node_modules package-lock.json frontend/package-lock.json",
+    "postinstall": "npm run install:all"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
@@ -29,7 +36,11 @@
     "analytics",
     "react",
     "flask",
-    "machine-learning"
+    "machine-learning",
+    "fintech",
+    "blockchain",
+    "radix-ui",
+    "tailwindcss"
   ],
   "author": "CRS Team",
   "license": "MIT",
@@ -37,8 +48,14 @@
     "type": "git",
     "url": "https://github.com/thewriterben/crs.git"
   },
+  "homepage": "https://github.com/thewriterben/crs#readme",
+  "bugs": {
+    "url": "https://github.com/thewriterben/crs/issues"
+  },
   "engines": {
     "node": ">=18.0.0",
+    "npm": ">=8.0.0",
     "python": ">=3.8.0"
-  }
+  },
+  "packageManager": "npm@10.0.0"
 }
