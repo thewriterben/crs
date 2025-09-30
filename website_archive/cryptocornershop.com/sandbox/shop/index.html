@@ -1,0 +1,1128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- header links, meta and etc -->
+    
+        <meta charset="utf-8">
+        <title>Crypto Corner Shop - SHOP</title>
+        <link rel="icon" type="image/png" href="../img/main/logo.png">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <!--<meta content="" name="keywords">-->
+        <!--<meta content="" name="description">-->
+        
+        <meta name="title" content="Crypto Corner Shop - Your Premier Crypto Marketplace">
+        <meta name="description" content="Shop and sell with 100+ cryptocurrencies at Crypto Corner Shop. Low 1% fees, secure blockchain transactions, and a global marketplace for buyers and sellers.">
+        <meta name="keywords" content="crypto marketplace, shop with cryptocurrency, Bitcoin shopping, Ethereum marketplace, low fee crypto store">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://cryptocornershop.com/sandbox/index.php">
+        <!-- Favicon -->
+        <!-- Schema Markup for Website -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Crypto Corner Shop",
+            "url": "https://cryptocornershop.com/sandbox/index.php",
+            "description": "A premier crypto marketplace for buying and selling with over 100 cryptocurrencies, featuring low 1% fees and secure blockchain transactions.",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://cryptocornershop.com/sandbox/search.php?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
+        <!-- Schema Markup for Local Business -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Crypto Corner Shop",
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "US",
+                "addressRegion": "USA"
+            },
+            "telephone": "+1 561 5486 325",
+            "email": "support@cryptocornershop.com",
+            "url": "https://cryptocornershop.com/sandbox/index.php"
+        }
+        </script>
+        
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+        
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+        <!-- Template Stylesheet -->
+        <link href="../css/style.css@371739719.css" rel="stylesheet">
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        
+  <style>
+    /* Chatbot Styles Scoped */
+
+    /* Reset everything back */
+.modal-content.no-style {
+  background: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+  text-align: initial !important;
+  box-shadow: none !important;
+  animation: none !important;
+  border: none !important;
+}
+
+
+    .chat-shell { 
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      max-width: 700px;
+      text-align: left;
+     }
+    .chat-card {
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 20px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .06);
+      overflow: hidden;
+      
+    }
+    .chat-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e9ecef;
+      background: linear-gradient(180deg, rgba(13,110,253,.05), transparent);
+    }
+    .chat-header .chat-title { font-size: 16px; margin: 0; font-weight: 600; }
+    .chat-header .limit-note { font-size: 12px; color: #6c757d; }
+    .chat-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      background: #f1f3f5; color: #0d6efd;
+      border: 1px solid #dee2e6;
+      flex-shrink: 0;
+    }
+    .chat-box {
+      height: 60vh;
+      overflow-y: auto;
+      padding: 22px;
+      scroll-behavior: smooth;
+      background: radial-gradient(1200px 600px at 50% -20%, rgba(13,110,253,.05), transparent);
+    }
+    .chat-row { display: flex; gap: 10px; margin: 12px 0; }
+    .chat-msg {
+      max-width: 72%;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 15px; line-height: 1.4;
+      border: 1px solid #e9ecef;
+      background: #f1f3f5;
+    }
+    .chat-msg.user { margin-left: auto; background: #e7f1ff; border-color: #cfe2ff; }
+    .chat-msg.ai { margin-right: auto; }
+    .chat-msg .meta { display: block; font-size: 11px; color: #6c757d; margin-top: 6px; }
+    .chat-typing { display: inline-flex; gap: 6px; }
+    .chat-typing .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #adb5bd; animation: bounce 1.2s infinite ease-in-out; opacity: .7;
+    }
+    .chat-typing .dot:nth-child(2) { animation-delay: .2s; }
+    .chat-typing .dot:nth-child(3) { animation-delay: .4s; }
+    @keyframes bounce { 0%,80%,100%{ transform:scale(0.7); opacity:.5 } 40%{ transform:scale(1); opacity:1 } }
+    .chat-input {
+      border-top: 1px solid #e9ecef;
+      padding: 14px;
+      display: flex; gap: 10px; align-items: center;
+      background: #f8f9fa;
+    }
+    .chat-input input {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #ced4da;
+      color: #212529;
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+    }
+    .chat-input .btn-send {
+      background: #0d6efd;
+      border: none;
+      color: #fff;
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    .chat-input .btn-send:hover { background: #0b5ed7; }
+    .contact-form { margin-top: 8px; display: grid; gap: 8px; }
+    .contact-form input, .contact-form textarea {
+      background: #fff; border: 1px solid #ced4da;
+      color: #212529; border-radius: 10px; padding: 10px 12px;
+    }
+    .contact-form .btn-success { background: #198754; border-color: #198754; }
+
+
+    /* Mobile only */
+    @media (max-width: 576px) {
+      .my-modal {
+        width: 100% !important;
+      }
+    /* Reset everything back */
+    .modal-content.no-style {
+      background: none !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      max-width: none !important;
+      width: auto !important;
+      text-align: initial !important;
+      box-shadow: none !important;
+      animation: none !important;
+      border: none !important;
+    }
+
+    }
+
+  </style>
+
+<!-- Modal AI Chat -->
+<div class="modal fade" id="chatModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content no-style chat-shell">
+        <div class="chat-card">
+          <div class="chat-header">
+            <div class="chat-avatar">AI</div>
+            <div>
+              <h6 class="chat-title mb-1">Crypto Corner Shop — AI Assistant</h6>
+              <div class="limit-note">Welcome! You can send <b>20 messages</b> per day. CCS questions are preferred.</div>
+            </div>
+          </div>
+
+          <div id="chat-box" class="chat-box">
+            <div class="chat-row">
+              <div class="chat-avatar">AI</div>
+              <div class="chat-msg ai">
+                Hi! I’m your CCS assistant. Ask me about selling, buying, coupons, shipping, checkout, CCS Token, and more.
+                <span class="meta">CCS • Always available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-input">
+            <input id="userInput" placeholder="Type your message…" autocomplete="off" />
+            <button id="sendBtn" class="btn btn-send">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = $("#chat-box");
+    function scrollToBottom(){ chatBox.scrollTop(chatBox[0].scrollHeight); }
+
+    function bubble(text, who = "ai"){
+      const avatar = who === "user" ? '<div class="chat-avatar">You</div>' : '<div class="chat-avatar">AI</div>';
+      const meta   = who === "user" ? '<span class="meta">You</span>' : '<span class="meta">CCS</span>';
+      const row = $(`
+        <div class="chat-row">
+          ${who === "user" ? '' : avatar}
+          <div class="chat-msg ${who}">${text}${meta}</div>
+          ${who === "user" ? avatar : ''}
+        </div>
+      `);
+      chatBox.append(row);
+      scrollToBottom();
+      return row;
+    }
+
+    function typingIndicator(){
+      const row = $(`
+        <div class="chat-row">
+          <div class="chat-avatar">AI</div>
+          <div class="chat-msg ai"><span class="chat-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+        </div>
+      `);
+      chatBox.append(row);
+      scrollToBottom();
+      return row;
+    }
+
+    function typeOut($el, text, speed = 18){
+      let i=0;
+      const intv = setInterval(()=>{
+        $el.append(document.createTextNode(text.charAt(i)));
+        i++;
+        if(i>=text.length) clearInterval(intv);
+        scrollToBottom();
+      }, speed);
+    }
+
+    function sendMessage(){
+      const msg = $("#userInput").val().trim();
+      if(!msg) return;
+      $("#userInput").val("");
+
+      bubble(msg, "user");
+      const typing = typingIndicator();
+      var domain = "https://cryptocornershop.com/sandbox";
+
+      $.post(domain + "/ai/chat.php", { message: msg }, function(data){
+      // console.log("✅ Raw response:", data);  
+      typing.remove();
+
+
+        if (data && data.reply){
+          const row = bubble("", "ai");
+          const el = row.find(".chat-msg.ai");
+          el.contents().filter(function(){ return this.nodeType === 3 }).remove();
+          el.prepend(document.createTextNode(""));
+          typeOut(el, data.reply);
+
+          // 👇 THIS IS WHERE THE CONTACT FORM SHOWS
+          if (data.require_contact){
+            setTimeout(()=>{
+              const form = $(`
+                <form id="contactForm" class="contact-form">
+                  <input type="text" id="contactFirst" placeholder="First name" required />
+                  <input type="text" id="contactLast" placeholder="Last name" required />
+                  <input type="email" id="contactEmail" placeholder="Your email" required />
+                  <input type="text" id="contactPhone" placeholder="Your phone number" required />
+                  <textarea id="contactMsg" placeholder="Describe your issue..." class="form-control" required></textarea>
+                  <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                </form>
+              `);
+              el.append(form);
+              scrollToBottom();
+            }, 300);
+          }
+        } else {
+          bubble("Unexpected response. Please try again.", "ai");
+        }
+
+        if (data && data.limitReached){
+          $("#userInput").prop("disabled", true);
+          $("#sendBtn").prop("disabled", true);
+        }
+      }, "json").fail(function(){
+        typing.remove();
+        bubble("Network error. Please try again.", "ai");
+      });
+    }
+
+    // Handle contact form submission
+    $(document).on("submit","#contactForm",function(e){
+      e.preventDefault();
+      const payload = {
+        first: $("#contactFirst").val().trim(),
+        last: $("#contactLast").val().trim(),
+        email: $("#contactEmail").val().trim(),
+        phone: $("#contactPhone").val().trim(),
+        message: $("#contactMsg").val().trim()
+      };
+      const typing = typingIndicator();
+      var domain = "https://cryptocornershop.com/sandbox";
+      $.post(domain + "/ai/contact.php", payload, function(data){
+        typing.remove();
+        if (data && data.status === "success"){
+          bubble(data.msg || "Thanks! A real person will contact you soon.", "ai");
+        } else {
+          bubble("Couldn’t submit right now. Please try again.", "ai");
+        }
+      },"json").fail(function(){
+        typing.remove();
+        bubble("Network error while submitting contact info.", "ai");
+      });
+    });
+
+    $("#sendBtn").on("click", sendMessage);
+    $("#userInput").on("keydown", function(e){ if(e.key === "Enter") sendMessage(); });
+  </script>
+
+  
+    <!-- END  -->
+    
+
+</head>
+<body>
+    <!-- Loading Screen Spinner Start -->
+    
+    <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+
+    <!-- End -->
+
+
+    <!-- Navbar start -->
+    
+<div class="container-fluid fixed-top">
+    <!-- Topbar -->
+    <div class="container topbar bg-primary d-none d-lg-block">
+        <div class="d-flex justify-content-between">
+            <div class="top-info ps-2">
+                <small class="me-3">
+                    <i class="fas fa-map-marker-alt me-2 text-secondary"></i>
+                    <a href="index.html#" class="text-white" id="loggedcountry">LOADING...</a>
+                </small>
+            </div>
+            <div class="top-link pe-2">
+                <a href="https://cryptocornershop.com/sandbox/signup.php" class="text-white"><small class="text-white mx-2">REGISTER</small></a> / <a href="https://cryptocornershop.com/sandbox/signin.php" class="text-white"><small class="text-white ms-2">LOGIN</small></a>            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="container px-0">
+        <nav class="navbar navbar-light bg-white navbar-expand-xl">
+            <a href="https://cryptocornershop.com/sandbox/index.php" class="navbar-brand">
+                <h1 class="text-primary display-6 nav-header-title">Crypto Corner Shop</h1>
+            </a>
+            <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars text-primary"></span>
+            </button>
+            <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                <div class="navbar-nav mx-auto">
+                    <a href="https://cryptocornershop.com/sandbox/index.php" class="nav-item nav-link active">HOME</a>
+                    <a href="index.html" class="nav-item nav-link">SHOP</a>
+                    <a href="https://cryptocornershop.com/sandbox/store" class="nav-item nav-link">STORES</a>
+                    <a href="https://cryptocornershop.com/sandbox/contact_us.php" class="nav-item nav-link">CONTACT</a>
+ 
+
+                    <!-- Account Dropdown -->
+                                            <div class="nav-item dropdown">
+                            <a href="index.html#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">ACCOUNT</a>
+                            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                <a href="https://cryptocornershop.com/sandbox/signin.php" class="dropdown-item">Login</a>
+                                <a href="https://cryptocornershop.com/sandbox/signup.php" class="dropdown-item">Register</a>
+                            </div>
+                        </div>
+                                    </div>
+                
+                   <a href="https://cryptocornershop.com/sandbox/donate" class="nav-item nav-link donate-link">DONATE</a>
+                    
+                    <!-- CSS for Styling the Donate Link -->
+                    <style>
+                    .nav-item.nav-link.donate-link {
+                        background-color: #ffb524; /* Bright orange background (or choose your color) */
+                        color: #fff !important; /* White text for contrast */
+                        border-radius: 5px; /* Rounded corners */
+                        font-weight: bold; /* Bold text */
+                        transition: all 0.3s ease; /* Smooth hover transition */
+                    }
+                    
+                    .nav-item.nav-link.donate-link:hover {
+                        background-color: #3f4337; /* Slightly darker shade on hover */
+                        transform: scale(1.02); /* Slight zoom effect */
+                       
+                    }
+                    
+                    /* Optional: Ensure alignment with other nav items */
+                    .nav-item.nav-link {
+                        margin-right: 10px; /* Space between nav items */
+                    }
+                    
+                    /* Optional: Responsive adjustments */
+                    @media (max-width: 768px) {
+                        .nav-item.nav-link.donate-link {
+                            padding: 6px 12px; /* Slightly smaller padding on mobile */
+                            font-size: 0.9rem; /* Slightly smaller font size */
+                        }
+                    }
+                    </style>
+
+                <!-- Right-side Icons -->
+                <div class="d-flex m-3 me-0">
+                    <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
+                        <i class="fas fa-search text-primary i-search"></i>
+                    </button>
+                    
+                    <button class="btn-ai btn border btn-md-square rounded-circle me-4" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#chatModal">
+                        <i class="fas fa-robot text-primary i-ai"></i>
+                    </button>
+
+                                    </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+<script>
+    async function fetchCountry(ip) {
+        const apiLocURL = 'https://cryptocornershop.com/sandbox/api/get_location.php';
+        try {
+            const response = await fetch(`${apiLocURL}?ip=${encodeURIComponent(ip)}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            document.getElementById('loggedcountry').textContent = data.country || 'Unknown';
+            if (data.country === 'Unknown') {
+                console.error('Location could not be determined.');
+            }
+        } catch (error) {
+            console.error('Error fetching location:', error);
+            document.getElementById('loggedcountry').textContent = 'Unknown';
+        }
+    }
+
+        // Trigger the fetch when the page loads
+        window.addEventListener('load', () => {
+            const ip = '';
+            if (ip) {
+                fetchCountry(ip);
+            } else {
+                document.getElementById('loggedcountry').textContent = 'GLOBAL';
+            }
+        });
+    </script>    <!-- Navbar End -->
+
+
+    <!-- Modal Search Start -->
+    
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-sm-down modal-xl">
+        <div class="modal-content ccs-search-modal-content rounded-3 shadow-lg border-0">
+            <div class="modal-header ccs-search-modal-header border-0 pb-0 justify-content-center">
+                <h2 class="modal-title ccs-search-modal-title fw-bold text-dark pt-2" id="exampleModalLabel">Search Crypto Corner Shop</h2>
+                <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ccs-search-modal-body py-4 pt-3">
+                <form class="search-form ccs-search-form w-100 mx-auto" role="search">
+                <input type="hidden" id="searchURL" value="https://cryptocornershop.com/sandbox/store/index.php?search=">
+                    <div class="input-group shadow-sm">
+                        <input 
+                            type="search" 
+                            class="form-control ccs-search-input form-control-lg border-0 p-3 rounded-start" 
+                            placeholder="Search Shops..." 
+                            aria-describedby="search-icon-1" 
+                            required
+                        >
+                        <button class="btn btn-primary ccs-search-btn rounded-end" type="submit" id="search-icon-1">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <!-- <div class="mt-3 ccs-search-suggestions text-muted small text-center">
+                        Popular searches: Bitcoin, Ethereum, NFT, Wallet
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for styling -->
+<style>
+    .input-group {
+        max-width: 100% !important;
+    }
+    .ccs-search-modal-content {
+        background: #fff;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .ccs-search-modal-title {
+        font-size: 1.75rem;
+        letter-spacing: -0.025rem;
+    }
+
+    .ccs-search-form .ccs-search-input {
+        border: 1px solid #dee2e6;
+        font-size: 1.1rem;
+        padding: 0.75rem 1rem;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+    .ccs-search-form .ccs-search-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .ccs-search-form .ccs-search-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border: none;
+    }
+
+    @media (max-width: 576px) {
+        .ccs-search-modal-content {
+            max-width: 100%;
+        }
+
+        .ccs-search-modal-title {
+            font-size: 1.5rem;
+        }
+
+        .ccs-search-form .ccs-search-input {
+            font-size: 1rem;
+        }
+
+        .ccs-search-form .ccs-search-btn {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+    }
+</style>
+
+
+<!-- Your existing HTML code remains the same, just add this JavaScript -->
+<script>
+    document.querySelector('.ccs-search-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const searchInput = document.querySelector('.ccs-search-input').value.trim();
+        const searchURL = document.querySelector('#searchURL').value;
+        if (searchInput) {
+            // Redirect to the dynamic search URL with the input value
+            window.location.href = `${searchURL}${encodeURIComponent(searchInput)}`;
+        }
+    });
+</script>
+
+    <!-- Modal Search End -->
+         
+
+        <!-- Toast  -->
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Shop</h1>
+        </div>
+        <!-- Single Page Header End -->
+
+        
+    <div class="container-fluid fruite py-1 shop-container">
+    <div class="container py-5">
+        <h1 class="mb-4 shop-now-title">Shop Now</h1>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="row g-4">
+                    <!-- Search Bar -->
+                    <div class="col-xl-3">
+                        <div class="input-group w-100 mx-auto d-flex">
+                            <input type="search" id="search" class="form-control p-3" placeholder="Search Products" aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Empty column for spacing -->
+                    <div class="col-6"></div>
+
+                    <!-- Sorting (Visible on larger screens) -->
+                    <div class="col-xl-3 d-none d-lg-block">
+                    <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4 align-items-center">
+                        <label for="sorting" class="mb-0 me-2">Sorting:</label>
+                        <select id="sorting" name="sortinglist" class="border-0 form-select-sm bg-light me-3" form="form">
+                            <option value="nothing">Default</option>
+                            <option value="newest">Newest</option>
+                            <option value="plh">Price: Low to High</option>
+                            <option value="phl">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Filter Button for Mobile -->
+                    <div class="col-12 d-lg-none mb-3">
+                        <button class="btn btn-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                            <i class="fa fa-filter me-2"></i> Show Filters
+                        </button>
+                    </div>
+
+                    <!-- Filter Options -->
+                    <div class="col-lg-3 shop-product-filter">
+                        <div class="row g-4">
+                            <div class="collapse d-lg-block" id="filterCollapse">
+                                <div class="row g-4">
+                                    <!-- Sorting (Visible on mobile when filters are shown) -->
+                                    <div class="col-lg-12 d-lg-none">
+                                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                                            <label for="sorting-mobile">Sorting:</label>
+                                            <select id="sorting-mobile" name="sortinglist" class="border-0 form-select-sm bg-light me-3" form="form">
+                                                <option value="nothing">Default</option>
+                                                <option value="newest">Newest</option>
+                                                <option value="plh">Price: Low to High</option>
+                                                <option value="phl">Price: High to Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Coins -->
+                                    <div class="col-lg-12" id="listcoins">
+                                        <div class="mb-3">
+                                            <h4>Products By Coins</h4>
+                                            <ul class="list-unstyled fruite-categorie" id="coins-list">
+                                                <!-- Coins will be populated here -->
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Price Range -->
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <h4 class="mb-2">Price Range</h4>
+                                            <input type="hidden" id="productMaxPrice" value="100000">
+                                            <!-- Minimum Price -->
+                                            <label for="minPrice" class="form-label">Min: $<span id="minPriceOutput">1</span></label>
+                                            <input type="range" class="form-range w-100" id="minPrice" name="minPrice" min="1" max="100000" value="1" oninput="updatePriceRange()">
+                                            <!-- Maximum Price -->
+                                            <label for="maxPrice" class="form-label">Max: $<span id="maxPriceOutput">100000</span></label>
+                                            <input type="range" class="form-range w-100" id="maxPrice" name="maxPrice" min="1" max="100000" value="100000" oninput="updatePriceRange()">
+                                        </div>
+                                    </div>
+
+                                    <!-- Condition -->
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <h4 class="mb-3">Condition</h4>
+                                            <!-- All Condition -->
+                                            <div class="form-check mb-2">
+                                                <input type="radio" class="form-check-input" id="condition-all" name="condition" value="">
+                                                <label class="form-check-label" for="condition-all">All</label>
+                                            </div>
+                                            <!-- New Condition -->
+                                            <div class="form-check mb-2">
+                                                <input type="radio" class="form-check-input" id="condition-new" name="condition" value="New">
+                                                <label class="form-check-label" for="condition-new">New</label>
+                                            </div>
+                                            <!-- Used Condition -->
+                                            <div class="form-check mb-2">
+                                                <input type="radio" class="form-check-input" id="condition-used" name="condition" value="Used">
+                                                <label class="form-check-label" for="condition-used">Used</label>
+                                            </div>
+                                            <!-- Refurbished Condition -->
+                                            <div class="form-check mb-2">
+                                                <input type="radio" class="form-check-input" id="condition-refurbished" name="condition" value="Refurbished">
+                                                <label class="form-check-label" for="condition-refurbished">Refurbished</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Advertisement -->
+                            <div class="col-lg-12">
+                                <div class="position-relative">
+                                    <a href="https://antavo.com/wp-content/uploads/2022/08/coca-cola-best-ads.png" target="_BLANK">
+                                        <img src="https://antavo.com/wp-content/uploads/2022/08/coca-cola-best-ads.png" class="img-fluid w-100 rounded" alt="">
+                                    </a>
+                                    <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
+                                        <h3 class="text-secondary fw-bold">ADS <br> </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 shop-product-distance"></div>
+                    <div class="col-lg-8 shop-products-area">
+                        <div class="row g-4 justify-content-center" id="data-container">
+                            <!-- Product Items Shows here -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updatePriceRange() {
+    var minPrice = document.getElementById("minPrice").value;
+    var maxPrice = document.getElementById("maxPrice").value;
+
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+        minPrice = maxPrice;
+        document.getElementById("minPrice").value = maxPrice;
+    }
+
+    document.getElementById("minPriceOutput").textContent = minPrice;
+    document.getElementById("maxPriceOutput").textContent = maxPrice;
+}
+
+// Update button text based on collapse state
+document.getElementById('filterCollapse').addEventListener('show.bs.collapse', function () {
+    document.querySelector('[data-bs-target="#filterCollapse"]').innerHTML = '<i class="fa fa-filter me-2"></i> Hide Filters';
+});
+document.getElementById('filterCollapse').addEventListener('hide.bs.collapse', function () {
+    document.querySelector('[data-bs-target="#filterCollapse"]').innerHTML = '<i class="fa fa-filter me-2"></i> Show Filters';
+});
+
+// Sync sorting selections between desktop and mobile
+document.getElementById('sorting').addEventListener('change', function () {
+    document.getElementById('sorting-mobile').value = this.value;
+});
+document.getElementById('sorting-mobile').addEventListener('change', function () {
+    document.getElementById('sorting').value = this.value;
+});
+</script>
+
+
+
+<script>
+  $(document).ready(function(){
+const maxPriceFromPHP = 100000;
+function load_data(page, search = '', minPrice = 1, maxPrice = maxPriceFromPHP, condition = '', sort = 'newest', currency = '') {
+    $.ajax({
+        url: "php/fetch_data_product.php",
+        method: "POST",
+        data: { page: page, search: search, minPrice: minPrice, maxPrice: maxPrice, condition: condition, sort: sort, currency: currency },
+        beforeSend: function() {
+            // Show loading message before the data is loaded
+            // $('#data-container').html('Loading...');
+            $('#data-container').html(`
+                <div class="d-flex justify-content-center align-items-center" style="height: 100px;">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `);
+
+        },
+        success: function(data){
+            $('#data-container').html(data);
+        }
+    }); 
+}
+
+load_data(1);
+
+$(document).on('click', '.pagination_link', function(e) {   
+    e.preventDefault(); 
+    var page = $(this).data('page');
+    var search = $('#search').val();
+    var minPrice = $('#minPrice').val();
+    var maxPrice = $('#maxPrice').val();
+    var condition = $('input[name="condition"]:checked').val();
+    var sort = $('#sorting').val(); // Updated to use #sorting
+    load_data(page, search, minPrice, maxPrice, condition, sort);
+    $('.pagination a').removeClass('active');
+    $(this).addClass('active');
+});
+
+$('#search').on('keyup', function() {
+    var search = $(this).val();
+    var minPrice = $('#minPrice').val();
+    var maxPrice = $('#maxPrice').val();
+    var condition = $('input[name="condition"]:checked').val();
+    var sort = $('#sorting').val(); // Updated to use #sorting
+    load_data(1, search, minPrice, maxPrice, condition, sort);
+});
+
+$('#minPrice, #maxPrice').on('input', function() {
+    var search = $('#search').val();
+    var minPrice = $('#minPrice').val();
+    var maxPrice = $('#maxPrice').val();
+    var condition = $('input[name="condition"]:checked').val();
+    var sort = $('#sorting').val(); // Updated to use #sorting
+    load_data(1, search, minPrice, maxPrice, condition, sort);
+    $('#minPriceOutput').text(minPrice);
+    $('#maxPriceOutput').text(maxPrice);
+});
+
+$('input[name="condition"]').on('change', function() {
+    var search = $('#search').val();
+    var minPrice = $('#minPrice').val();
+    var maxPrice = $('#maxPrice').val();
+    var condition = $('input[name="condition"]:checked').val();
+    var sort = $('#sorting').val(); // Updated to use #sorting
+    load_data(1, search, minPrice, maxPrice, condition, sort);
+});
+
+$('#sorting').on('change', function() { // Updated to use #sorting
+    var search = $('#search').val();
+    var minPrice = $('#minPrice').val();
+    var maxPrice = $('#maxPrice').val();
+    var condition = $('input[name="condition"]:checked').val();
+    var sort = $(this).val();
+    // var currency = $('#currency-value').data('currency');
+    load_data(1, search, minPrice, maxPrice, condition, sort);
+});
+
+
+    // Fetch data from the server using jQuery AJAX
+    $.ajax({
+        url: 'php/fetch_listcoins.php', // The PHP file we created earlier
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Clear the list before appending new data
+            $('#coins-list').empty();
+
+            // Loop through each currency and append to the list
+            $.each(data, function(currency, details) {
+            // console.log(details);
+
+            // Get the count and full_codes array
+            let count = details.count;
+            let fullCodes = details.full_codes;
+
+            // Create a string from the fullCodes array, joined by commas
+            let fullCodesString = fullCodes.join(', ');
+            let firstFullCode = details.full_codes[0]; // Get only the first full code
+
+            $('#coins-list').append(
+                `<li>
+                    <div class="d-flex justify-content-between fruite-name">
+                        <a href="index.html#" class="currency-link" id="currency-value" data-currency="${firstFullCode}">
+                            <i class="fas fa-coins me-2"></i>${currency.toUpperCase()}
+                        </a>
+                        <span>(${count})</span>
+                    </div>
+                </li>`
+            );
+        });
+
+            // Add click event to each currency link
+            $('.currency-link').click(function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                // Get the selected currency from data attribute
+                // const selectedCurrency = $(this).data('currency');
+
+                // console.log(selectedCurrency);
+
+                // Call the load_data function with selected currency
+                // const currency = selectedCurrency; // Assuming 'search' parameter is used for currency filter
+
+
+                // Call the existing load_data function with the selected currency
+                // load_data(1, search, minPrice, maxPrice, condition, sort, currency);
+
+                var search = $('#search').val();
+                var minPrice = $('#minPrice').val();
+                var maxPrice = $('#maxPrice').val();
+                var condition = $('input[name="condition"]:checked').val();
+                var sort = $('#sorting').val(); 
+                var currency = $(this).data('currency');
+                load_data(1, search, minPrice, maxPrice, condition, sort, currency);
+                
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error fetching coins data: " + error);
+        }
+    });
+
+
+
+    
+
+});
+
+
+
+</script>
+
+
+
+    <!-- Footer Start -->
+    
+    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+            <div class="container py-5">
+                <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                    <div class="row g-4">
+                        <div class="col-lg-3">
+                            <a href="index.html#">
+                                <h1 class="text-white text-size-xx-large mb-0">Crypto Corner Shop</h1>
+                                <p class="text-secondary mb-0">Crypto Marketplace</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="position-relative mx-auto">
+                            <form id="subscribeForm">
+                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="email" id="email" name="email" placeholder="Your Email" required>
+                                <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </form>
+                            </div>
+
+                            <div id="config" data-subscribe-url="https://cryptocornershop.com/sandbox/tools/subscribe.php"></div>
+                            
+<!-- Modal -->
+ <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content rounded-0">
+          <div class="modal-header">
+            <h5 class="modal-title" id="responseModalLabel">Subscription Status</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-primary" id="modalMessage">
+            <!-- Response message will be inserted here -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark btn-login" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="d-flex justify-content-end pt-3">
+                                <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle btn-link-color" href="https://x.com/cryptcornershop"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle btn-link-color" href="index.html"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle btn-link-color" href="index.html"><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle btn-link-color" href="index.html"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">About us!</h4>
+                            <p class="mb-4">At Crypto Corner Shop, we empower sellers and buyers with cryptocurrency freedom, enabling anyone to open an online shop, list products, and accept crypto payments — no bank needed.</p>
+                            
+                                                            <a href="https://cryptocornershop.com/sandbox/signup.php" class="btn border-secondary py-2 px-4 rounded-pill text-white">Sign Up</a>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Shop Info</h4>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/about_us.php">About Us</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/contact_us.php">Contact Us</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/privacy_policy.php">Privacy Policy</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/terms_conditions.php">Terms & Condition</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/supported_coins.php">Supported Coins</a>
+                            <!-- <a class="btn-link btn-link-color" href="">Return Policy</a>
+                            <a class="btn-link btn-link-color" href="">FAQs & Help</a> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Account</h4>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/signin.php">My Account</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/buyer/cart.php">Shopping Cart</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/buyer/orders.php">Order History</a>
+                            <a class="btn-link btn-link-color" href="https://cryptocornershop.com/sandbox/shop">Shop</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">Contact</h4>
+                            <!--<p>Address: USA</p>-->
+                            <p>Email: info@cryptocornershop.com</p>
+                            <p>Phone: +1 (415) 371-9275</p>
+                            <!-- <p>Payment Accepted</p>
+                            <img src="img/payment.png" class="img-fluid" alt=""> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="index.html#" class="btn-link-color" ><i class="fas fa-copyright me-2 "></i>Crypto Corner Shop</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        Developed By <a class="border-bottom btn-link-color" href="https://myskypower.com">MySkyPower</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+
+
+        <!-- Back to Top -->
+        <a href="index.html#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+
+
+
+    <!-- Footer END -->
+        
+    <!-- JavaScript Libraries -->
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/lightbox/js/lightbox.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../js/main.js@657326914"></script>
+    
+     <script>
+    // Function to get or set a cookie
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // Generate or retrieve user ID
+    let userId = getCookie('user_id');
+    if (!userId) {
+        userId = 'user_' + Math.random().toString(36).substr(2, 9);
+        setCookie('user_id', userId, 365); // Store for 1 year
+    }
+
+    // Get full page URL (including query parameters)
+    let pageVisited = window.location.href;
+
+    // Send data to PHP script
+    var domain = "https://cryptocornershop.com/sandbox"; // Ensure $domain is defined in PHP
+    function logVisit() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", domain + "/components/log_visit.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        let data = "user_id=" + encodeURIComponent(userId) + "&page_visited=" + encodeURIComponent(pageVisited);
+        xhr.send(data);
+    }
+
+    // Log visit when page loads
+    window.onload = logVisit;
+    </script>
+
+    <!-- END -->
+
+</body>
+
+</html>

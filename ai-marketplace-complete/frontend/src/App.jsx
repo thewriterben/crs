@@ -1,0 +1,1041 @@
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Search, 
+  ShoppingCart, 
+  User, 
+  Shield, 
+  Truck, 
+  Brain, 
+  Coins, 
+  TrendingUp,
+  Globe,
+  Zap,
+  Lock,
+  Star,
+  ChevronRight,
+  Menu,
+  X,
+  Eye,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Plus,
+  Filter,
+  Heart,
+  MessageSquare,
+  Settings,
+  Bell,
+  Wallet,
+  Activity,
+  Database
+} from 'lucide-react';
+import { Button } from '@/components/ui/button.jsx';
+import { Input } from '@/components/ui/input.jsx';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card.jsx';
+import { Badge } from '@/components/ui/badge.jsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx';
+import { BlockchainProvider, useBlockchain } from './contexts/BlockchainContext.jsx';
+import ComplianceDashboard from './components/ComplianceDashboard.jsx';
+import AdvancedTradingDashboard from './components/AdvancedTradingDashboard.jsx';
+import AIDashboard from './components/AIDashboard.jsx';
+import NewCapabilitiesDashboard from './components/NewCapabilitiesDashboard.jsx';
+import './App.css';
+
+// Main App Component with Blockchain Provider
+function App() {
+  return (
+    <BlockchainProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </BlockchainProvider>
+  );
+}
+
+// App Content Component (inside blockchain provider)
+function AppContent() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { 
+    dgdPrice, 
+    walletBalance, 
+    isConnected, 
+    blockchainInfo,
+    cfvData,
+    listings,
+    loading
+  } = useBlockchain();
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Header 
+        isMenuOpen={isMenuOpen} 
+        setIsMenuOpen={setIsMenuOpen}
+        dgdPrice={dgdPrice}
+        walletBalance={walletBalance}
+        isConnected={isConnected}
+      />
+      
+      <Routes>
+        <Route path="/" element={<HomePage dgdPrice={dgdPrice} cfvData={cfvData} blockchainInfo={blockchainInfo} />} />
+        <Route path="/marketplace" element={<MarketplacePage listings={listings} loading={loading} />} />
+        <Route path="/trading" element={<TradingPage dgdPrice={dgdPrice} cfvData={cfvData} />} />
+        <Route path="/valuation" element={<ValuationPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/wallet" element={<WalletPage dgdPrice={dgdPrice} walletBalance={walletBalance} />} />
+        <Route path="/blockchain" element={<BlockchainPage />} />
+        <Route path="/compliance" element={<ComplianceDashboard />} />
+        <Route path="/advanced-trading" element={<AdvancedTradingDashboard />} />
+        <Route path="/ai-dashboard" element={<AIDashboard />} />
+        <Route path="/new-capabilities" element={<NewCapabilitiesDashboard />} />
+      </Routes>
+      
+      <Footer />
+    </div>
+  );
+}
+
+// Header Component
+function Header({ isMenuOpen, setIsMenuOpen, dgdPrice, walletBalance, isConnected }) {
+  return (
+    <header className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+              <Coins className="w-7 h-7 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-bitcoin-gold">Global AI Marketplace</h1>
+              <p className="text-xs text-muted-foreground flex items-center space-x-1">
+                <span>Powered by Digital Gold</span>
+                {isConnected ? (
+                  <CheckCircle className="w-3 h-3 text-green-400" />
+                ) : (
+                  <AlertTriangle className="w-3 h-3 text-red-400" />
+                )}
+              </p>
+            </div>
+          </Link>
+
+          {/* DGD Price Ticker */}
+          <div className="hidden md:flex items-center space-x-4 bg-muted/50 rounded-lg px-4 py-2 border border-bitcoin-gold/20">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-bitcoin-gold rounded-full flex items-center justify-center">
+                <span className="text-xs font-bold text-primary-foreground">DGD</span>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-bitcoin-gold">${dgdPrice.toFixed(2)}</p>
+                <p className="text-xs text-green-400">+2.4%</p>
+              </div>
+            </div>
+            <div className="text-xs text-muted-foreground">
+              <p>Balance: {walletBalance.toFixed(4)} DGD</p>
+            </div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="hidden lg:flex items-center space-x-6">
+            <Link to="/marketplace" className="hover:text-bitcoin-gold transition-colors">Marketplace</Link>
+            <Link to="/trading" className="hover:text-bitcoin-gold transition-colors">Trading</Link>
+            <Link to="/advanced-trading" className="hover:text-bitcoin-gold transition-colors">Advanced Trading</Link>
+            <Link to="/ai-dashboard" className="hover:text-bitcoin-gold transition-colors">AI Dashboard</Link>
+            <Link to="/new-capabilities" className="hover:text-bitcoin-gold transition-colors">🚀 New Features</Link>
+            <Link to="/valuation" className="hover:text-bitcoin-gold transition-colors">AI Valuation</Link>
+            <Link to="/blockchain" className="hover:text-bitcoin-gold transition-colors">Blockchain</Link>
+            <Link to="/compliance" className="hover:text-bitcoin-gold transition-colors">Compliance</Link>
+            <Link to="/wallet" className="hover:text-bitcoin-gold transition-colors">Wallet</Link>
+          </nav>
+
+          {/* User Actions */}
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                2
+              </span>
+            </Button>
+            
+            <Button variant="ghost" size="icon" className="relative">
+              <ShoppingCart className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 bg-bitcoin-gold text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                3
+              </span>
+            </Button>
+            
+            <Link to="/wallet">
+              <Button variant="ghost" size="icon">
+                <Wallet className="w-5 h-5" />
+              </Button>
+            </Link>
+
+            <Link to="/profile">
+              <Button variant="ghost" size="icon">
+                <User className="w-5 h-5" />
+              </Button>
+            </Link>
+
+            <Button 
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="lg:hidden mt-4 pt-4 border-t border-border"
+            >
+              <nav className="flex flex-col space-y-4">
+                <Link to="/marketplace" className="hover:text-bitcoin-gold transition-colors">Marketplace</Link>
+                <Link to="/trading" className="hover:text-bitcoin-gold transition-colors">Trading</Link>
+                <Link to="/advanced-trading" className="hover:text-bitcoin-gold transition-colors">Advanced Trading</Link>
+                <Link to="/ai-dashboard" className="hover:text-bitcoin-gold transition-colors">AI Dashboard</Link>
+                <Link to="/new-capabilities" className="hover:text-bitcoin-gold transition-colors">🚀 New Features</Link>
+                <Link to="/valuation" className="hover:text-bitcoin-gold transition-colors">AI Valuation</Link>
+                <Link to="/blockchain" className="hover:text-bitcoin-gold transition-colors">Blockchain</Link>
+                <Link to="/compliance" className="hover:text-bitcoin-gold transition-colors">Compliance</Link>
+                <Link to="/wallet" className="hover:text-bitcoin-gold transition-colors">Wallet</Link>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
+  );
+}
+
+// Home Page Component
+function HomePage({ dgdPrice, cfvData, blockchainInfo }) {
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-20 px-4">
+        <div className="container mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              The Future of <span className="text-bitcoin-gold">AI Commerce</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+              Trade with confidence using our revolutionary CFV (Crypto Fair Value) model. 
+              AI-powered valuations meet secure blockchain technology.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/marketplace">
+                <Button size="lg" className="bg-bitcoin-gold hover:bg-bitcoin-gold/90 text-primary-foreground">
+                  Explore Marketplace
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link to="/trading">
+                <Button size="lg" variant="outline" className="border-bitcoin-gold text-bitcoin-gold hover:bg-bitcoin-gold hover:text-primary-foreground">
+                  Start Trading
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Blockchain Status Section */}
+      {blockchainInfo && (
+        <section className="py-12 px-4 bg-muted/30">
+          <div className="container mx-auto">
+            <div className="grid md:grid-cols-4 gap-6 text-center">
+              <StatCard title={blockchainInfo.chain_length} subtitle="Blocks Mined" icon={<Database className="w-6 h-6" />} />
+              <StatCard title={blockchainInfo.total_contracts} subtitle="Smart Contracts" icon={<Shield className="w-6 h-6" />} />
+              <StatCard title={blockchainInfo.total_wallets} subtitle="Active Wallets" icon={<Wallet className="w-6 h-6" />} />
+              <StatCard title={cfvData?.confidence || 98} subtitle="CFV Accuracy %" icon={<Brain className="w-6 h-6" />} />
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Features Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Powered by <span className="text-bitcoin-gold">Advanced Technology</span>
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<Brain className="w-8 h-8" />}
+              title="AI Valuation"
+              description="Revolutionary CFV model provides accurate cryptocurrency valuations using machine learning and market analysis."
+            />
+            <FeatureCard
+              icon={<Shield className="w-8 h-8" />}
+              title="Secure Trading"
+              description="Advanced blockchain technology ensures secure, transparent, and immutable transactions."
+            />
+            <FeatureCard
+              icon={<Globe className="w-8 h-8" />}
+              title="Global Marketplace"
+              description="Connect with traders worldwide in our comprehensive marketplace platform."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-4 bg-muted/30">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <StatCard title="$3.4T" subtitle="Market Cap" />
+            <StatCard title="659M" subtitle="Global Users" />
+            <StatCard title="98%" subtitle="Accuracy Rate" />
+            <StatCard title="24/7" subtitle="Trading" />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Feature Card Component
+function FeatureCard({ icon, title, description }) {
+  return (
+    <Card className="text-center hover:shadow-lg transition-shadow border-border/50">
+      <CardHeader>
+        <div className="w-16 h-16 bg-bitcoin-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-bitcoin-gold">{icon}</div>
+        </div>
+        <CardTitle className="text-xl">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-muted-foreground">{description}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Stat Card Component
+function StatCard({ title, subtitle, icon }) {
+  return (
+    <div className="text-center">
+      {icon && (
+        <div className="w-12 h-12 bg-bitcoin-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="text-bitcoin-gold">{icon}</div>
+        </div>
+      )}
+      <h3 className="text-4xl font-bold text-bitcoin-gold mb-2">{title}</h3>
+      <p className="text-muted-foreground">{subtitle}</p>
+    </div>
+  );
+}
+
+// Marketplace Page Component
+function MarketplacePage({ listings, loading }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { purchaseItem } = useBlockchain();
+  
+  const categories = ['all', 'electronics', 'collectibles', 'art', 'gaming', 'fashion'];
+  
+  // Use real blockchain listings or fallback to mock data
+  const displayListings = listings.length > 0 ? listings : [
+    {
+      listing_id: "1",
+      title: "Rare Bitcoin Collectible",
+      price: 2.5,
+      currency: "DGD",
+      cfv_score: 98,
+      seller: "CryptoCollector",
+      category: "collectibles",
+      status: "active"
+    },
+    {
+      listing_id: "2",
+      title: "AI-Generated Digital Art",
+      price: 1.8,
+      currency: "DGD",
+      cfv_score: 95,
+      seller: "DigitalArtist",
+      category: "art",
+      status: "active"
+    },
+    {
+      listing_id: "3",
+      title: "Gaming NFT Collection",
+      price: 3.2,
+      currency: "DGD",
+      cfv_score: 92,
+      seller: "GameMaster",
+      category: "gaming",
+      status: "active"
+    }
+  ];
+
+  const handlePurchase = async (listingId) => {
+    try {
+      await purchaseItem(listingId);
+      alert('Purchase successful!');
+    } catch (error) {
+      alert(`Purchase failed: ${error.message}`);
+    }
+  };
+
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-4">AI Marketplace</h1>
+          <p className="text-muted-foreground">Discover unique items valued by our advanced CFV algorithm</p>
+        </div>
+
+        {/* Search and Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Input
+                placeholder="Search marketplace..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <Button variant="outline" className="border-bitcoin-gold text-bitcoin-gold">
+              <Filter className="w-4 h-4 mr-2" />
+              Filters
+            </Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className={selectedCategory === category ? "bg-bitcoin-gold hover:bg-bitcoin-gold/90" : ""}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Loading State */}
+        {loading.listings && (
+          <div className="text-center py-8">
+            <Activity className="w-8 h-8 animate-spin mx-auto mb-4 text-bitcoin-gold" />
+            <p>Loading marketplace items...</p>
+          </div>
+        )}
+
+        {/* Marketplace Items */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayListings.map((item) => (
+            <MarketplaceItem key={item.listing_id} item={item} onPurchase={handlePurchase} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Marketplace Item Component
+function MarketplaceItem({ item, onPurchase }) {
+  return (
+    <Card className="hover:shadow-lg transition-shadow border-border/50">
+      <CardHeader className="p-0">
+        <div className="relative">
+          <div className="w-full h-48 bg-muted rounded-t-lg flex items-center justify-center">
+            <div className="text-6xl text-muted-foreground">🎨</div>
+          </div>
+          <Badge className="absolute top-2 right-2 bg-bitcoin-gold text-primary-foreground">
+            CFV: {item.cfv_score}%
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="p-4">
+        <h3 className="font-semibold mb-2">{item.title}</h3>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-2xl font-bold text-bitcoin-gold">
+            {item.price} {item.currency}
+          </span>
+          <div className="flex items-center space-x-1">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm">4.8</span>
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground">by {item.seller}</p>
+      </CardContent>
+      <CardFooter className="p-4 pt-0 space-x-2">
+        <Button 
+          className="flex-1 bg-bitcoin-gold hover:bg-bitcoin-gold/90"
+          onClick={() => onPurchase(item.listing_id)}
+        >
+          Buy Now
+        </Button>
+        <Button variant="outline" size="icon">
+          <Heart className="w-4 h-4" />
+        </Button>
+        <Button variant="outline" size="icon">
+          <MessageSquare className="w-4 h-4" />
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+// Trading Page Component
+function TradingPage({ dgdPrice, cfvData }) {
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Trading Dashboard</h1>
+        
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Trading Interface */}
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <TrendingUp className="w-5 h-5 text-bitcoin-gold" />
+                  <span>DGD/USD Trading</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Tabs defaultValue="buy" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="buy">Buy DGD</TabsTrigger>
+                    <TabsTrigger value="sell">Sell DGD</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="buy" className="space-y-4">
+                    <TradingForm type="buy" dgdPrice={dgdPrice} />
+                  </TabsContent>
+                  <TabsContent value="sell" className="space-y-4">
+                    <TradingForm type="sell" dgdPrice={dgdPrice} />
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Market Info */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Market Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between">
+                  <span>Current Price</span>
+                  <span className="font-bold text-bitcoin-gold">${dgdPrice.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>24h Change</span>
+                  <span className="text-green-400">+2.4%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Volume</span>
+                  <span>$2.4M</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Market Cap</span>
+                  <span>$890M</span>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>CFV Analysis</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Fair Value</span>
+                    <span className="text-bitcoin-gold">
+                      ${cfvData?.fair_value?.toFixed(2) || (dgdPrice * 1.05).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Confidence</span>
+                    <span className="text-green-400">{cfvData?.confidence || 98}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Recommendation</span>
+                    <Badge className="bg-green-500">{cfvData?.recommendation || "BUY"}</Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Trading Form Component
+function TradingForm({ type, dgdPrice }) {
+  const [amount, setAmount] = useState('');
+  const [total, setTotal] = useState('');
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="text-sm font-medium">Amount (DGD)</label>
+        <Input
+          type="number"
+          placeholder="0.00"
+          value={amount}
+          onChange={(e) => {
+            setAmount(e.target.value);
+            setTotal((parseFloat(e.target.value) * dgdPrice).toFixed(2));
+          }}
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium">Total (USD)</label>
+        <Input
+          type="number"
+          placeholder="0.00"
+          value={total}
+          onChange={(e) => {
+            setTotal(e.target.value);
+            setAmount((parseFloat(e.target.value) / dgdPrice).toFixed(6));
+          }}
+        />
+      </div>
+      <Button 
+        className={`w-full ${type === 'buy' ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}
+      >
+        {type === 'buy' ? 'Buy' : 'Sell'} DGD
+      </Button>
+    </div>
+  );
+}
+
+// Valuation Page Component
+function ValuationPage() {
+  const { calculateCFV, cfvData, loading } = useBlockchain();
+  const [currency, setCurrency] = useState('DGD');
+  const [marketData, setMarketData] = useState({
+    adoption_score: 1.2,
+    network_power_score: 1.1,
+    transaction_volume_score: 0.9,
+    development_score: 1.0
+  });
+
+  const handleCalculateCFV = async () => {
+    try {
+      await calculateCFV(currency, marketData);
+    } catch (error) {
+      alert(`CFV calculation failed: ${error.message}`);
+    }
+  };
+
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-8">AI Valuation Engine</h1>
+        
+        <div className="grid lg:grid-cols-2 gap-8">
+          <Card>
+            <CardHeader>
+              <CardTitle>CFV Analysis Tool</CardTitle>
+              <CardDescription>Get AI-powered valuations for any cryptocurrency</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Currency</label>
+                <Input
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  placeholder="Enter currency symbol"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Adoption Score</label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={marketData.adoption_score}
+                    onChange={(e) => setMarketData({...marketData, adoption_score: parseFloat(e.target.value)})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Network Power</label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={marketData.network_power_score}
+                    onChange={(e) => setMarketData({...marketData, network_power_score: parseFloat(e.target.value)})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Transaction Volume</label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={marketData.transaction_volume_score}
+                    onChange={(e) => setMarketData({...marketData, transaction_volume_score: parseFloat(e.target.value)})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Development Score</label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    value={marketData.development_score}
+                    onChange={(e) => setMarketData({...marketData, development_score: parseFloat(e.target.value)})}
+                  />
+                </div>
+              </div>
+              
+              <Button 
+                onClick={handleCalculateCFV}
+                disabled={loading.cfv}
+                className="w-full bg-bitcoin-gold hover:bg-bitcoin-gold/90"
+              >
+                {loading.cfv ? 'Calculating...' : 'Calculate CFV'}
+              </Button>
+            </CardContent>
+          </Card>
+          
+          {cfvData && (
+            <Card>
+              <CardHeader>
+                <CardTitle>CFV Results</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <h3 className="text-3xl font-bold text-bitcoin-gold mb-2">
+                    {cfvData.cfv_score.toFixed(4)}
+                  </h3>
+                  <p className="text-muted-foreground">CFV Score</p>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Confidence</span>
+                    <span className="font-semibold">{cfvData.confidence}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Recommendation</span>
+                    <Badge className={
+                      cfvData.recommendation === 'BUY' ? 'bg-green-500' :
+                      cfvData.recommendation === 'SELL' ? 'bg-red-500' : 'bg-yellow-500'
+                    }>
+                      {cfvData.recommendation}
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div className="pt-4 border-t">
+                  <h4 className="font-semibold mb-2">Component Scores</h4>
+                  <div className="space-y-1 text-sm">
+                    <div className="flex justify-between">
+                      <span>Adoption</span>
+                      <span>{cfvData.components?.adoption}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Network Power</span>
+                      <span>{cfvData.components?.network_power}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Transaction Volume</span>
+                      <span>{cfvData.components?.transaction_volume}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Development</span>
+                      <span>{cfvData.components?.development}</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Profile Page Component
+function ProfilePage() {
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-8">User Profile</h1>
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile Settings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">Profile management coming soon...</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+// Wallet Page Component
+function WalletPage({ dgdPrice, walletBalance }) {
+  const { fundWallet, allBalances, transactions, loading } = useBlockchain();
+  
+  const handleFundWallet = async () => {
+    try {
+      await fundWallet(10);
+      alert('Wallet funded with 10 DGD!');
+    } catch (error) {
+      alert(`Funding failed: ${error.message}`);
+    }
+  };
+
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Digital Wallet</h1>
+        
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Wallet className="w-5 h-5 text-bitcoin-gold" />
+                <span>DGD Balance</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center">
+                <p className="text-4xl font-bold text-bitcoin-gold mb-2">
+                  {walletBalance.toFixed(4)} DGD
+                </p>
+                <p className="text-muted-foreground">
+                  ${(walletBalance * dgdPrice).toFixed(2)} USD
+                </p>
+                <Button 
+                  onClick={handleFundWallet}
+                  disabled={loading.wallet}
+                  className="mt-4 bg-bitcoin-gold hover:bg-bitcoin-gold/90"
+                >
+                  {loading.wallet ? 'Funding...' : 'Fund Wallet (+10 DGD)'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Transactions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {transactions.slice(0, 5).map((tx, index) => (
+                  <div key={index} className="flex justify-between text-sm">
+                    <span className="truncate">{tx.transaction_type}</span>
+                    <span className={tx.amount > 0 ? "text-green-400" : "text-red-400"}>
+                      {tx.amount > 0 ? '+' : ''}{tx.amount} {tx.currency}
+                    </span>
+                  </div>
+                ))}
+                {transactions.length === 0 && (
+                  <p className="text-muted-foreground text-sm">No transactions yet</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* All Balances */}
+        {Object.keys(allBalances).length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>All Currency Balances</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {Object.entries(allBalances).map(([currency, balance]) => (
+                  <div key={currency} className="text-center p-4 bg-muted/50 rounded-lg">
+                    <p className="font-semibold">{currency}</p>
+                    <p className="text-2xl font-bold text-bitcoin-gold">{balance.toFixed(4)}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Blockchain Page Component
+function BlockchainPage() {
+  const { blockchainInfo, transactions, isConnected } = useBlockchain();
+
+  return (
+    <div className="min-h-screen py-8 px-4">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Blockchain Explorer</h1>
+        
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Database className="w-5 h-5 text-bitcoin-gold" />
+                <span>Blockchain Status</span>
+                {isConnected ? (
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                ) : (
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {blockchainInfo ? (
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Chain Length</span>
+                    <span className="font-semibold">{blockchainInfo.chain_length}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Pending Transactions</span>
+                    <span className="font-semibold">{blockchainInfo.pending_transactions}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Smart Contracts</span>
+                    <span className="font-semibold">{blockchainInfo.total_contracts}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Active Wallets</span>
+                    <span className="font-semibold">{blockchainInfo.total_wallets}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Difficulty</span>
+                    <span className="font-semibold">{blockchainInfo.difficulty}</span>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">Loading blockchain info...</p>
+              )}
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Latest Block</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {blockchainInfo ? (
+                <div className="space-y-2">
+                  <div>
+                    <span className="text-sm text-muted-foreground">Hash</span>
+                    <p className="font-mono text-xs break-all">
+                      {blockchainInfo.latest_block_hash}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted-foreground">Loading block info...</p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {transactions.map((tx, index) => (
+                <div key={index} className="p-3 bg-muted/50 rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-semibold text-sm">{tx.transaction_type}</p>
+                      <p className="text-xs text-muted-foreground">
+                        From: {tx.from_address} → To: {tx.to_address}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold">{tx.amount} {tx.currency}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Block #{tx.block_index}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {transactions.length === 0 && (
+                <p className="text-muted-foreground text-center py-8">No transactions found</p>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+// Footer Component
+function Footer() {
+  return (
+    <footer className="bg-card border-t border-border py-12 px-4">
+      <div className="container mx-auto">
+        <div className="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="font-bold text-bitcoin-gold mb-4">Global AI Marketplace</h3>
+            <p className="text-sm text-muted-foreground">
+              Revolutionary AI-powered marketplace using CFV technology for accurate cryptocurrency valuations.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Platform</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link to="/marketplace" className="hover:text-bitcoin-gold">Marketplace</Link></li>
+              <li><Link to="/trading" className="hover:text-bitcoin-gold">Trading</Link></li>
+              <li><Link to="/valuation" className="hover:text-bitcoin-gold">Valuation</Link></li>
+              <li><Link to="/blockchain" className="hover:text-bitcoin-gold">Blockchain</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Support</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="#" className="hover:text-bitcoin-gold">Help Center</a></li>
+              <li><a href="#" className="hover:text-bitcoin-gold">Contact</a></li>
+              <li><a href="#" className="hover:text-bitcoin-gold">API Docs</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><a href="#" className="hover:text-bitcoin-gold">About</a></li>
+              <li><a href="#" className="hover:text-bitcoin-gold">Privacy</a></li>
+              <li><a href="#" className="hover:text-bitcoin-gold">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
+          <p>&copy; 2025 Global AI Marketplace. Powered by Digital Gold Foundation.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default App;
+
