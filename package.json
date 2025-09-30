@@ -1,7 +1,7 @@
 {
   "name": "cryptocurrency-marketplace",
   "version": "1.0.0",
-  "description": "A comprehensive cryptocurrency marketplace combining AI-powered trading capabilities with modern e-commerce functionality",
+  "description": "AI-powered cryptocurrency marketplace with trading bots, portfolio optimization, and e-commerce features.",
   "private": true,
   "workspaces": [
     "frontend"
@@ -32,14 +32,16 @@
   },
   "keywords": [
     "cryptocurrency",
-    "marketplace",
     "ai",
     "trading",
-    "ecommerce",
-    "portfolio",
-    "analytics",
     "react",
     "flask",
+    "portfolio-optimization",
+    "trading-bots",
+    "portfolio",
+    "ecommerce",
+    "marketplace",
+    "analytics",
     "machine-learning",
     "fintech",
     "blockchain",
