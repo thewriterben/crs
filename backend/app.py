@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Main Flask app for AI Marketplace Backend
-Deployable version of the simple AI API
+Deployable version of the simple AI API with WebSocket support
 """
 
 from flask import Flask, request, jsonify
@@ -17,32 +17,6 @@ import os
 app = Flask(__name__)
 CORS(app, origins="*")
 
-# Configure caching
-cache_config = {
-    'CACHE_TYPE': os.environ.get('CACHE_TYPE', 'SimpleCache'),  # Use 'RedisCache' for production
-    'CACHE_DEFAULT_TIMEOUT': 60,
-    'CACHE_KEY_PREFIX': 'crs_',
-}
-
-# Redis configuration (if available)
-if os.environ.get('REDIS_URL'):
-    cache_config.update({
-        'CACHE_TYPE': 'RedisCache',
-        'CACHE_REDIS_URL': os.environ.get('REDIS_URL'),
-    })
-
-cache = Cache(app, config=cache_config)
-
-# Enable gzip compression for all responses
-compress = Compress(app)
-
-# Rate limiting to prevent abuse
-limiter = Limiter(
-    app=app,
-    key_func=get_remote_address,
-    default_limits=["200 per minute", "2000 per hour"],
-    storage_uri=os.environ.get('REDIS_URL', 'memory://'),
-)
 
 @app.route('/', methods=['GET'])
 @cache.cached(timeout=300)  # Cache for 5 minutes
@@ -52,10 +26,16 @@ def home():
         'message': 'AI Marketplace Backend API',
         'version': '1.0.0',
         'status': 'operational',
+        'features': {
+            'rest_api': True,
+            'websocket': socketio is not None,
+            'real_time_streaming': socketio is not None
+        },
         'endpoints': [
             '/api/ai/dashboard-data',
             '/api/ai/status'
-        ]
+        ],
+        'websocket': '/socket.io' if socketio else 'not available'
     })
 
 @app.route('/api/ai/status', methods=['GET'])
@@ -70,7 +50,8 @@ def ai_status():
             'prediction_engine': 'active',
             'sentiment_analysis': 'active', 
             'trading_bots': 'active',
-            'portfolio_optimization': 'active'
+            'portfolio_optimization': 'active',
+            'real_time_streaming': 'active' if socketio else 'unavailable'
         }
     })
 
@@ -209,5 +190,14 @@ def add_cache_headers(response):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    
+    if socketio:
+        print(f"Starting server with WebSocket support on port {port}")
+        # Use eventlet for WebSocket support
+        import eventlet
+        eventlet.monkey_patch()
+        socketio.run(app, host='0.0.0.0', port=port, debug=False)
+    else:
+        print(f"Starting server without WebSocket support on port {port}")
+        app.run(host='0.0.0.0', port=port, debug=False)
 

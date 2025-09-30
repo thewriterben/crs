@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '@/lib/api.js';
+import { useWebSocket } from '@/hooks/useWebSocket.js';
 import './AIDashboard.css';
 
 const AIDashboard = () => {
@@ -9,7 +10,6 @@ const AIDashboard = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('BTC');
   const [activeTab, setActiveTab] = useState('overview');
 
-  const fetchDashboardData = useCallback(async () => {
     try {
       const data = await api.ai.getDashboardData();
       setDashboardData(data);
@@ -90,8 +90,14 @@ const AIDashboard = () => {
     <div className="ai-dashboard">
       <div className="dashboard-header">
         <h1>🤖 AI Analytics Dashboard</h1>
-        <div className="last-updated">
-          Last updated: {new Date(dashboardData?.timestamp).toLocaleTimeString()}
+        <div className="header-info">
+          <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+            <span className="status-indicator"></span>
+            {isConnected ? 'Live' : 'Offline'}
+          </div>
+          <div className="last-updated">
+            Last updated: {new Date(dashboardData?.timestamp).toLocaleTimeString()}
+          </div>
         </div>
       </div>
 
