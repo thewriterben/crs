@@ -1,6 +1,8 @@
 # Core Flask dependencies
 Flask==3.1.1
 Flask-CORS==6.0.1
+Flask-SocketIO==5.3.6
+python-socketio==5.11.1
 gunicorn==23.0.0
 
 # AI and ML dependencies
@@ -11,4 +13,5 @@ requests==2.31.0
 
 # Additional utilities
 python-dotenv==1.0.0
+eventlet==0.35.2
 

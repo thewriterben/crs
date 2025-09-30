@@ -25,6 +25,7 @@ A comprehensive cryptocurrency marketplace combining AI-powered trading capabili
 
 ### Key Features
 - AI-powered portfolio optimization with Modern Portfolio Theory
+- **Real-time data streaming via WebSocket** - Live market feeds and instant updates
 - Real-time sentiment analysis and market intelligence
 - Advanced trading engine with automated bots
 - Professional charting and technical analysis
@@ -71,9 +72,7 @@ crs/
 - [ ] Set up routing and navigation
 
 ### Phase 3: Enhancement
-- [x] Add cryptocurrency payment processing ✅
 - [ ] Implement user authentication
-- [ ] Add real-time data streaming
 - [ ] Performance optimization
 
 ### Phase 4: Deployment
@@ -83,6 +82,11 @@ crs/
 - [ ] Documentation completion
 
 ## Quick Start
+
+### Prerequisites
+- Node.js >= 18.0.0
+- Python >= 3.8.0
+- npm >= 8.0.0
 
 ### Development Setup
 ```bash
@@ -96,8 +100,22 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python main.py
+python app.py
 ```
+
+The application will start with:
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
+- WebSocket: ws://localhost:5000/socket.io
+
+### WebSocket Features
+The application includes real-time data streaming:
+- Live market price updates (every 2 seconds)
+- Sentiment analysis updates (every 10 seconds)
+- Trading signals (every 15 seconds)
+- Connection status indicators
+
+See [WebSocket Documentation](docs/WEBSOCKET_STREAMING.md) for detailed information.
 
 ### Build for Production
 ```bash
