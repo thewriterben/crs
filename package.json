@@ -17,7 +17,12 @@
     "setup:backend": "cd backend && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
     "lint": "cd frontend && npm run lint",
     "lint:fix": "cd frontend && npm run lint -- --fix",
-    "test": "cd frontend && npm run test",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test:run",
+    "test:backend": "cd backend && python -m pytest tests/ -v",
+    "test:coverage": "npm run test:frontend:coverage && npm run test:backend:coverage",
+    "test:frontend:coverage": "cd frontend && npm run test:coverage",
+    "test:backend:coverage": "cd backend && python -m pytest tests/ -v --cov=src --cov-report=term --cov-report=html",
     "type-check": "cd frontend && npm run type-check",
     "clean": "rm -rf frontend/node_modules frontend/dist backend/venv backend/__pycache__",
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json frontend/package-lock.json"

@@ -66,6 +66,39 @@ jobs:
           path: frontend/dist
           retention-days: 7
 
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm run test:run
+      
+      - name: Run tests with coverage
+        run: npm run test:coverage
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./frontend/coverage/lcov.info
+          flags: frontend
+          name: frontend-coverage
+        continue-on-error: true
+
   # Backend Jobs
   backend-lint:
     name: Backend Linting
@@ -116,13 +149,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Test imports
+      - name: Run pytest
         run: |
-          python -c "from src import main; print('Backend imports successful')"
+          python -m pytest tests/ -v --cov=src --cov-report=xml --cov-report=term
+        continue-on-error: false
       
-      - name: Test API server startup
-        run: |
-          timeout 10s python src/main.py || [ $? -eq 124 ] && echo "Server started successfully"
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./backend/coverage.xml
+          flags: backend
+          name: backend-coverage
         continue-on-error: true
 
   # Security Scanning
@@ -175,11 +212,12 @@ jobs:
     name: Deployment Readiness Check
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: [frontend-build, backend-test]
+    needs: [frontend-build, frontend-test, backend-test]
     steps:
       - name: Deployment ready
         run: |
           echo "✅ All checks passed - ready for deployment"
           echo "📦 Frontend build successful"
+          echo "✅ Frontend tests passed"
           echo "✅ Backend tests passed"
           echo "🚀 Ready to deploy to production"
