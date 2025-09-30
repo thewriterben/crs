@@ -12,7 +12,6 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:run": "vitest run",
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
@@ -67,26 +66,16 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
-    "@testing-library/jest-dom": "^6.8.0",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
-    "@vitest/ui": "^3.2.4",
     "autoprefixer": "^10.4.14",
     "eslint": "^9.25.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "happy-dom": "^19.0.2",
-    "jsdom": "^27.0.0",
     "postcss": "^8.4.27",
     "terser": "^5.44.0",
     "tw-animate-css": "^1.2.9",
     "vite": "^6.3.5",
-    "vitest": "^3.2.4"
   },
   "keywords": [
     "cryptocurrency",
