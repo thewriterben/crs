@@ -5,6 +5,11 @@
 export { default as AIDashboard } from './ai/AIDashboard.jsx';
 export { default as NewCapabilitiesDashboard } from './ai/NewCapabilitiesDashboard.jsx';
 
+// Shop-specific components
+export { default as ProductCatalog } from './shop/ProductCatalog.jsx';
+export { default as ShoppingCart } from './shop/ShoppingCart.jsx';
+export { default as PaymentGateway } from './shop/PaymentGateway.jsx';
+
 // Re-export all UI components for convenience
 export * from './ui/accordion.jsx';
 export * from './ui/alert.jsx';

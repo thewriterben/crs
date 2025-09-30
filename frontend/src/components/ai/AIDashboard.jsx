@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '@/lib/api.js';
 import './AIDashboard.css';
 
 const AIDashboard = () => {
@@ -16,11 +17,7 @@ const AIDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch('http://localhost:5005/api/ai/dashboard-data');
-      if (!response.ok) {
-        throw new Error('Failed to fetch AI dashboard data');
-      }
-      const data = await response.json();
+      const data = await api.ai.getDashboardData();
       setDashboardData(data);
       setError(null);
     } catch (err) {

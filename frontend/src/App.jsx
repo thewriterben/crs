@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { 
   Search, 
-  ShoppingCart, 
+  ShoppingCart as ShoppingCartIcon, 
   User, 
   Brain, 
   Coins, 
   TrendingUp,
   Menu,
-  X
+  X,
+  Store,
+  CreditCard
 } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx';
 import AIDashboard from './components/ai/AIDashboard.jsx';
 import NewCapabilitiesDashboard from './components/ai/NewCapabilitiesDashboard.jsx';
+import ProductCatalog from './components/shop/ProductCatalog.jsx';
+import ShoppingCart from './components/shop/ShoppingCart.jsx';
+import PaymentGateway from './components/shop/PaymentGateway.jsx';
 import './App.css';
 
 // Main App Component
@@ -29,7 +34,8 @@ function AppContent() {
   const navigation = [
     { id: 'dashboard', name: 'AI Dashboard', icon: Brain },
     { id: 'capabilities', name: 'Advanced Features', icon: TrendingUp },
-    { id: 'marketplace', name: 'Marketplace', icon: ShoppingCart },
+    { id: 'marketplace', name: 'Marketplace', icon: Store },
+    { id: 'cart', name: 'Cart', icon: ShoppingCartIcon },
     { id: 'portfolio', name: 'Portfolio', icon: Coins },
   ];
 
@@ -111,7 +117,8 @@ function AppContent() {
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
         {currentView === 'dashboard' && <AIDashboard />}
         {currentView === 'capabilities' && <NewCapabilitiesDashboard />}
-        {currentView === 'marketplace' && <MarketplacePlaceholder />}
+        {currentView === 'marketplace' && <ProductCatalog />}
+        {currentView === 'cart' && <ShoppingCart />}
         {currentView === 'portfolio' && <PortfolioPlaceholder />}
       </main>
     </div>
@@ -119,33 +126,6 @@ function AppContent() {
 }
 
 // Placeholder components for future development
-function MarketplacePlaceholder() {
-  return (
-    <Card className="bg-gray-800 border-gray-700">
-      <CardHeader>
-        <CardTitle className="text-white">Cryptocurrency Marketplace</CardTitle>
-        <CardDescription className="text-gray-400">
-          E-commerce functionality coming soon
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="text-center py-12">
-          <ShoppingCart className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <p className="text-gray-400 mb-4">
-            The cryptocurrency marketplace is under development. It will feature:
-          </p>
-          <ul className="text-left text-gray-400 space-y-2 max-w-md mx-auto">
-            <li>• Cryptocurrency products and services</li>
-            <li>• Secure payment processing</li>
-            <li>• User account management</li>
-            <li>• Order tracking and history</li>
-          </ul>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
 function PortfolioPlaceholder() {
   return (
     <Card className="bg-gray-800 border-gray-700">
