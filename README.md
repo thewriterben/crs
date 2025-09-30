@@ -30,6 +30,13 @@ A comprehensive cryptocurrency marketplace combining AI-powered trading capabili
 - Professional charting and technical analysis
 - Secure cryptocurrency transaction handling
 - Modern responsive UI with dark theme support
+- **User Authentication & Security**
+  - Secure login and registration
+  - JWT token-based authentication
+  - Password encryption with bcrypt
+  - Multi-factor authentication (MFA/2FA)
+  - Session management with automatic token refresh
+  - User profile management
 
 ## Project Structure
 
@@ -71,7 +78,7 @@ crs/
 
 ### Phase 3: Enhancement
 - [ ] Add cryptocurrency payment processing
-- [ ] Implement user authentication
+- [x] Implement user authentication
 - [ ] Add real-time data streaming
 - [ ] Performance optimization
 
@@ -95,8 +102,73 @@ cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
+# Set environment variables (optional)
+export SECRET_KEY='your-secret-key'
+export JWT_SECRET_KEY='your-jwt-secret-key'
+
+# Run the backend server
+cd src
 python main.py
 ```
+
+### Authentication Setup
+
+The application includes a complete user authentication system with the following features:
+
+#### Backend Configuration
+
+1. **Environment Variables**: Set these in your environment or `.env` file:
+   ```bash
+   SECRET_KEY=your-secret-key-here
+   JWT_SECRET_KEY=your-jwt-secret-key-here
+   DATABASE_URL=sqlite:///marketplace.db  # Default SQLite database
+   ```
+
+2. **Database**: The authentication system uses SQLAlchemy with SQLite by default. The database is automatically created on first run.
+
+#### Authentication Features
+
+- **Registration**: New users can register with username, email, and password
+- **Login**: Secure login with JWT token generation
+- **Password Security**: Passwords are hashed using bcrypt
+- **JWT Tokens**: Access tokens (1 hour) and refresh tokens (30 days)
+- **Token Refresh**: Automatic token refresh to maintain sessions
+- **MFA Support**: Optional multi-factor authentication using TOTP
+- **Profile Management**: Users can update email and change passwords
+- **Session Management**: Automatic logout on token expiration
+
+#### API Endpoints
+
+Authentication endpoints are available at:
+
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login and get tokens
+- `POST /api/auth/logout` - Logout and revoke tokens
+- `POST /api/auth/refresh` - Refresh access token
+- `GET /api/auth/verify` - Verify token validity
+- `GET /api/auth/profile` - Get user profile
+- `PUT /api/auth/profile` - Update user profile
+- `POST /api/auth/change-password` - Change password
+- `POST /api/auth/mfa/enable` - Enable MFA
+- `POST /api/auth/mfa/disable` - Disable MFA
+
+#### Password Requirements
+
+- Minimum 8 characters
+- At least one uppercase letter
+- At least one lowercase letter
+- At least one number
+- At least one special character
+
+#### Frontend Integration
+
+The frontend includes:
+- `AuthContext` for global authentication state
+- Login and Registration components
+- User Profile component with password change and MFA management
+- Automatic token refresh
+- Protected routes requiring authentication
 
 ### Build for Production
 ```bash
