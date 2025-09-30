@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { api } from '@/lib/api.js';
 import './AIDashboard.css';
 
@@ -8,12 +8,6 @@ const AIDashboard = () => {
   const [error, setError] = useState(null);
   const [selectedSymbol, setSelectedSymbol] = useState('BTC');
   const [activeTab, setActiveTab] = useState('overview');
-
-  useEffect(() => {
-    fetchDashboardData();
-    const interval = setInterval(fetchDashboardData, 30000); // Update every 30 seconds
-    return () => clearInterval(interval);
-  }, []);
 
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -27,6 +21,12 @@ const AIDashboard = () => {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    fetchDashboardData();
+    const interval = setInterval(fetchDashboardData, 30000); // Update every 30 seconds
+    return () => clearInterval(interval);
+  }, [fetchDashboardData]);
 
   // Memoize formatters to avoid recreating on every render
   const formatCurrency = useMemo(() => {
