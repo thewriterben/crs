@@ -90,6 +90,33 @@ SECRET_KEY=your-secret-key-here
 AI_MODELS_PATH=./ai/models/
 ```
 
+**Validate Your Environment Variables:**
+
+Before starting the backend, you can validate your environment configuration:
+
+```bash
+# Validate current environment
+python scripts/validate_env.py
+
+# Validate specific .env file
+python scripts/validate_env.py --env-file /path/to/.env
+
+# Show all detected environment variables
+python scripts/validate_env.py --show-vars
+
+# Strict mode (treat warnings as errors)
+python scripts/validate_env.py --strict
+```
+
+The validation script checks for:
+- Required environment variables (SECRET_KEY, JWT_SECRET_KEY, DATABASE_URL)
+- Valid formats and values
+- Security issues (weak keys, debug mode in production, etc.)
+- Database connection string validity
+- CORS configuration
+
+See [Environment Variable Validation](#environment-variable-validation) for more details.
+
 #### Running the Backend
 ```bash
 # Development mode with auto-reload
@@ -242,6 +269,68 @@ SECRET_KEY=your-secret-key-here         # Flask secret key
 AI_MODELS_PATH=./ai/models/             # AI models directory
 CORS_ORIGINS=http://localhost:5173      # Allowed CORS origins
 ```
+
+### Environment Variable Validation
+
+The backend includes a validation script to check your environment configuration before startup. This helps prevent deployment errors due to missing or incorrect configuration.
+
+**Running the Validator:**
+
+```bash
+cd backend
+
+# Basic validation (checks current environment)
+python scripts/validate_env.py
+
+# Validate a specific .env file
+python scripts/validate_env.py --env-file .env
+
+# Show all detected environment variables (masks sensitive values)
+python scripts/validate_env.py --show-vars
+
+# Strict mode (treats warnings as errors)
+python scripts/validate_env.py --strict
+```
+
+**What It Checks:**
+
+- ✅ **Required Variables**: SECRET_KEY, JWT_SECRET_KEY, DATABASE_URL
+- ✅ **Secret Key Strength**: Detects weak or default keys
+- ✅ **Database URL Format**: Validates connection string syntax
+- ✅ **Security Issues**: Debug mode in production, CORS wildcards
+- ✅ **Value Formats**: Port numbers, boolean values, URLs
+
+**Exit Codes:**
+- `0` - Validation passed (no errors)
+- `1` - Validation failed (errors found)
+
+**Production vs Development:**
+
+In development mode, missing required variables produce warnings but allow the application to run with defaults.
+
+In production mode (`FLASK_ENV=production`), missing required variables are treated as errors to prevent insecure deployments.
+
+**Example Output:**
+
+```bash
+$ python scripts/validate_env.py
+
+======================================================================
+Environment Variable Validation Report
+======================================================================
+
+⚠️  Warnings:
+  • [SECRET_KEY] Using default or weak secret key. 
+    Generate with: python -c "import secrets; print(secrets.token_urlsafe(32))"
+
+❌ Errors:
+  • [JWT_SECRET_KEY] Required in production: JWT token signing key.
+
+======================================================================
+❌ Validation failed with 1 error(s) and 1 warning(s)
+```
+
+See [scripts/README.md](../scripts/README.md) for more utility scripts.
 
 ## Troubleshooting
 

@@ -124,7 +124,32 @@ ls -la .env
 
 # Verify required variables
 docker-compose config | grep -A 20 backend
+
+# Use the environment validation script
+cd backend
+python scripts/validate_env.py
+
+# Or validate a specific .env file
+python scripts/validate_env.py --env-file /path/to/.env
+
+# Show all environment variables (with sensitive values masked)
+python scripts/validate_env.py --show-vars
 ```
+
+**What the validation script checks:**
+- Required variables: SECRET_KEY, JWT_SECRET_KEY, DATABASE_URL
+- Secret key strength (detects weak/default keys)
+- Database connection URL format
+- Security issues (debug mode in production, CORS wildcards)
+- Valid port numbers, boolean values, URLs
+
+**Common validation errors:**
+- `SECRET_KEY not set` - Generate with: `python -c "import secrets; print(secrets.token_urlsafe(32))"`
+- `Weak secret key` - Replace default keys with secure random values
+- `Invalid DATABASE_URL` - Check connection string format
+- `Debug mode in production` - Set `FLASK_DEBUG=False` in production
+
+See [development-setup.md](./development-setup.md#environment-variable-validation) for more details.
 
 ### Issue: 500 Internal Server Error
 
