@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { 
   Search, 
@@ -14,12 +14,24 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button.jsx';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx';
-import AIDashboard from './components/ai/AIDashboard.jsx';
-import NewCapabilitiesDashboard from './components/ai/NewCapabilitiesDashboard.jsx';
-import ProductCatalog from './components/shop/ProductCatalog.jsx';
-import ShoppingCart from './components/shop/ShoppingCart.jsx';
-import PaymentGateway from './components/shop/PaymentGateway.jsx';
 import './App.css';
+
+// Lazy load heavy components for better performance
+const AIDashboard = lazy(() => import('./components/ai/AIDashboard.jsx'));
+const NewCapabilitiesDashboard = lazy(() => import('./components/ai/NewCapabilitiesDashboard.jsx'));
+const ProductCatalog = lazy(() => import('./components/shop/ProductCatalog.jsx'));
+const ShoppingCart = lazy(() => import('./components/shop/ShoppingCart.jsx'));
+const PaymentGateway = lazy(() => import('./components/shop/PaymentGateway.jsx'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-[400px]">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+      <p className="text-gray-400">Loading...</p>
+    </div>
+  </div>
+);
 
 // Main App Component
 function App() {
@@ -115,11 +127,13 @@ function AppContent() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        {currentView === 'dashboard' && <AIDashboard />}
-        {currentView === 'capabilities' && <NewCapabilitiesDashboard />}
-        {currentView === 'marketplace' && <ProductCatalog />}
-        {currentView === 'cart' && <ShoppingCart />}
-        {currentView === 'portfolio' && <PortfolioPlaceholder />}
+        <Suspense fallback={<LoadingFallback />}>
+          {currentView === 'dashboard' && <AIDashboard />}
+          {currentView === 'capabilities' && <NewCapabilitiesDashboard />}
+          {currentView === 'marketplace' && <ProductCatalog />}
+          {currentView === 'cart' && <ShoppingCart />}
+          {currentView === 'portfolio' && <PortfolioPlaceholder />}
+        </Suspense>
       </main>
     </div>
   );

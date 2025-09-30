@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { api } from '@/lib/api.js';
 import './AIDashboard.css';
 
@@ -15,7 +15,7 @@ const AIDashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const data = await api.ai.getDashboardData();
       setDashboardData(data);
@@ -26,28 +26,31 @@ const AIDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value);
-  };
+  // Memoize formatters to avoid recreating on every render
+  const formatCurrency = useMemo(() => {
+    return (value) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(value);
+    };
+  }, []);
 
-  const formatPercentage = (value) => {
+  const formatPercentage = useCallback((value) => {
     return `${(value * 100).toFixed(2)}%`;
-  };
+  }, []);
 
-  const getSentimentColor = (sentiment) => {
+  const getSentimentColor = useCallback((sentiment) => {
     if (sentiment > 0.3) return '#10b981'; // Green
     if (sentiment < -0.3) return '#ef4444'; // Red
     return '#f59e0b'; // Yellow
-  };
+  }, []);
 
-  const getRecommendationColor = (recommendation) => {
+  const getRecommendationColor = useCallback((recommendation) => {
     switch (recommendation) {
       case 'STRONG_BUY': return '#10b981';
       case 'BUY': return '#22c55e';
@@ -56,7 +59,7 @@ const AIDashboard = () => {
       case 'STRONG_SELL': return '#ef4444';
       default: return '#6b7280';
     }
-  };
+  }, []);
 
   if (loading) {
     return (
