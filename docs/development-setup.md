@@ -196,17 +196,30 @@ touch ai/your_ai_module.py
 #### Frontend Testing
 ```bash
 cd frontend
-npm run lint          # Check code quality
-npm run build         # Test production build
-npm run preview       # Test production build locally
+npm run test          # Run tests in watch mode
+npm run test:run      # Run tests once
+npm run test:ui       # Run tests with UI
+npm run test:coverage # Run tests with coverage
 ```
 
 #### Backend Testing
 ```bash
 cd backend
-python -m pytest tests/              # Run unit tests (when added)
-python -c "import app; print('OK')"  # Quick import test
+source venv/bin/activate  # Activate virtual environment
+pytest                    # Run all tests
+pytest -v                 # Run with verbose output
+pytest -m unit           # Run only unit tests
+pytest --cov=src         # Run with coverage
 ```
+
+#### Run All Tests
+```bash
+# From project root
+npm test                 # Run both frontend and backend tests
+npm run test:coverage    # Run all tests with coverage
+```
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
 
 ## Environment Variables Reference
 
