@@ -4,9 +4,15 @@
 
 The CRS Cryptocurrency Marketplace API provides endpoints for authentication, AI-powered market analysis, trading bot management, and cryptocurrency operations.
 
-**Base URL**: `https://api.yourdomain.com` (Production) or `http://localhost:5000` (Development)
+**Base URLs**: 
+- **Core API**: `http://localhost:5000` (Development) or `https://api.yourdomain.com` (Production)
+- **Phase 3 API**: `http://localhost:5006` (Development) - Advanced AI/ML, DeFi, Social Trading, Portfolio Automation
 
-**API Version**: 1.0.0
+**API Versions**: 
+- Core API: v1.0.0
+- Phase 3 API: v3.0.0
+
+> **💡 Note**: For complete Phase 3 API documentation with all 30+ endpoints, see [API_REFERENCE.md](API_REFERENCE.md)
 
 ---
 
@@ -15,8 +21,9 @@ The CRS Cryptocurrency Marketplace API provides endpoints for authentication, AI
 1. [Authentication](#authentication)
 2. [Health & Status](#health--status)
 3. [AI & Market Intelligence](#ai--market-intelligence)
-4. [Rate Limiting](#rate-limiting)
-5. [Error Handling](#error-handling)
+4. [Phase 3 Advanced Features](#phase-3-advanced-features)
+5. [Rate Limiting](#rate-limiting)
+6. [Error Handling](#error-handling)
 
 ---
 
@@ -636,14 +643,86 @@ async function fetchDashboardData() {
 
 ---
 
+## Phase 3 Advanced Features
+
+Phase 3 introduces 30+ new API endpoints for advanced cryptocurrency features. For complete documentation, see [API_REFERENCE.md](API_REFERENCE.md).
+
+### Quick Overview
+
+**Advanced AI/ML (4 endpoints)**
+- LSTM predictions - Time series forecasting
+- Transformer predictions - Pattern analysis with attention
+- Ensemble predictions - Combined model predictions (94% confidence)
+- BERT sentiment - NLP-based sentiment analysis
+
+**DeFi Integration (11 endpoints)**
+- DEX Aggregator - Best prices across Uniswap, PancakeSwap, SushiSwap
+- Yield Farming - 5 pools with 38-68% APY
+- Staking - ETH, BNB, ADA, DOT, SOL
+- Liquidity Pools - AMM pool management
+
+**Social Trading (4 endpoints)**
+- Copy Trading - Follow top traders
+- Trading Signals - AI-generated BUY/SELL/HOLD
+- Portfolio Sharing - Browse successful portfolios
+- Leaderboards - Community rankings
+
+**Portfolio Automation (8 endpoints)**
+- Auto-Rebalancing - Drift detection and orders
+- Risk Management - Portfolio risk assessment
+- DCA - Automated dollar-cost averaging
+- Stop-Loss - Trailing stops and take-profit
+
+### Example Usage
+
+**Get AI Prediction**
+```bash
+curl -X POST http://localhost:5006/api/phase3/ai/ensemble/predict \
+  -H "Content-Type: application/json" \
+  -d '{"symbol": "BTC", "data": [50000, 51000, 50500, 52000, 51500]}'
+```
+
+**Get DEX Quote**
+```bash
+curl "http://localhost:5006/api/phase3/defi/dex/quote?tokenIn=ETH&tokenOut=USDT&amountIn=1.0"
+```
+
+**Follow Top Trader**
+```bash
+curl -X POST http://localhost:5006/api/phase3/social/traders/follow \
+  -H "Content-Type: application/json" \
+  -d '{"traderId": "trader_001", "copyAmount": 5000}'
+```
+
+**Create DCA Schedule**
+```bash
+curl -X POST http://localhost:5006/api/phase3/portfolio/dca/create \
+  -H "Content-Type: application/json" \
+  -d '{"asset": "BTC", "amount": 100, "frequency": "weekly", "durationMonths": 12}'
+```
+
+### Phase 3 Resources
+
+- **[Complete API Reference](API_REFERENCE.md)** - All 30+ endpoints with detailed examples
+- **[Developer Guide](DEVELOPER_GUIDE.md)** - Contributing to Phase 3 features
+- **[Feature Guides](FEATURE_GUIDES/)** - Detailed guides for each feature category
+  - [AI/ML Models](FEATURE_GUIDES/AI_ML_MODELS.md)
+  - [DeFi Features](FEATURE_GUIDES/DEFI_FEATURES.md)
+  - [Social Trading](FEATURE_GUIDES/SOCIAL_TRADING.md)
+  - [Portfolio Automation](FEATURE_GUIDES/PORTFOLIO_AUTOMATION.md)
+
+---
+
 ## Support
 
 For API support or questions:
 - **Documentation**: [docs.yourdomain.com](https://docs.yourdomain.com)
+- **Phase 3 API Reference**: [API_REFERENCE.md](API_REFERENCE.md)
 - **Email**: api-support@yourdomain.com
 - **GitHub Issues**: [github.com/thewriterben/crs/issues](https://github.com/thewriterben/crs/issues)
 
 ---
 
-**Last Updated**: January 2025
-**API Version**: 1.0.0
+**Last Updated**: September 2024  
+**Core API Version**: 1.0.0  
+**Phase 3 API Version**: 3.0.0 ✅
