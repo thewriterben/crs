@@ -1,4 +1,4 @@
-# Cryptocurrency Marketplace (CRS)
+# Cryptons.com
 
 ## Project Overview
 
@@ -10,7 +10,7 @@ A comprehensive cryptocurrency marketplace combining AI-powered trading capabili
 
 ### 🚀 Phase 3 Complete - Advanced Features Live!
 
-The CRS platform now includes cutting-edge features ready for production:
+The Cryptons.com platform now includes cutting-edge features ready for production:
 
 - **🤖 Advanced AI/ML Models** - LSTM, Transformer, Ensemble predictions, and BERT sentiment analysis
 - **💰 DeFi Integration** - DEX aggregation, yield farming, staking, and liquidity pools

@@ -20,7 +20,7 @@ CORS(app)
 def health_check():
     return jsonify({
         'status': 'healthy',
-        'service': 'CRS Backend API',
+        'service': 'Cryptons.com Backend API',
         'version': '1.0.0'
     })
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     debug = os.environ.get('FLASK_DEBUG', 'True').lower() == 'true'
     
-    print(f"Starting CRS Backend API on port {port}")
+    print(f"Starting Cryptons.com Backend API on port {port}")
     print(f"Debug mode: {debug}")
     
     app.run(host='0.0.0.0', port=port, debug=debug)

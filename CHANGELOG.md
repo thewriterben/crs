@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the CRS Cryptocurrency Marketplace project will be documented in this file.
+All notable changes to the Cryptons.com Cryptocurrency Marketplace project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Phase 3: Enhancement - COMPLETE ✅
 
-This major release delivers advanced AI/ML capabilities, DeFi integration, social trading features, and portfolio automation, making the CRS Cryptocurrency Marketplace production-ready with cutting-edge features.
+This major release delivers advanced AI/ML capabilities, DeFi integration, social trading features, and portfolio automation, making the Cryptons.com Cryptocurrency Marketplace production-ready with cutting-edge features.
 
 #### Added - Advanced AI/ML Models (4 endpoints)
 - **LSTM Predictor** - Time series forecasting with 60-period lookback window for price predictions
