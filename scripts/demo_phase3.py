@@ -135,7 +135,7 @@ def main():
     """Run all demos"""
     print("\n" + "="*60)
     print("PHASE 3 FEATURES DEMONSTRATION")
-    print("CRS Cryptocurrency Marketplace")
+    print("Cryptons.com Cryptocurrency Marketplace")
     print("="*60)
     
     try:

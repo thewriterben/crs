@@ -463,7 +463,7 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(
-        description='Validate environment variables for CRS backend',
+        description='Validate environment variables for Cryptons.com backend',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -508,7 +508,7 @@ Examples:
     if args.show_vars:
         print(f"\n{Colors.BOLD}Detected Environment Variables:{Colors.END}\n")
         for key in sorted(validator.env_vars.keys()):
-            # Only show CRS-related variables
+            # Only show Cryptons.com-related variables
             if any(prefix in key for prefix in ['FLASK', 'SECRET', 'JWT', 'DATABASE', 'REDIS', 'CORS', 'POSTGRES', 'PORT', 'API']):
                 value = validator.env_vars[key]
                 # Mask sensitive values

@@ -1,6 +1,6 @@
 # Backend Tests
 
-This directory contains the test suite for the CRS Cryptocurrency Marketplace backend.
+This directory contains the test suite for the Cryptons.com Cryptocurrency Marketplace backend.
 
 ## Quick Start
 

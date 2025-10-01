@@ -1,6 +1,6 @@
 # Backend Scripts
 
-This directory contains utility scripts for the CRS backend.
+This directory contains utility scripts for the Cryptons.com backend.
 
 ## Available Scripts
 

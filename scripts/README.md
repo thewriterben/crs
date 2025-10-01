@@ -1,6 +1,6 @@
 # Deployment Scripts
 
-This directory contains utility scripts for deploying and managing the CRS Cryptocurrency Marketplace.
+This directory contains utility scripts for deploying and managing the Cryptons.com Cryptocurrency Marketplace.
 
 ## Available Scripts
 
@@ -147,7 +147,7 @@ Run health checks after deployment:
 
 Expected output:
 ```
-🏥 CRS Health Check Starting...
+🏥 Cryptons.com Health Check Starting...
 ==================================
 
 📦 Docker Services

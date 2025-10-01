@@ -1,5 +1,5 @@
 """
-Security configuration and middleware for CRS Backend
+Security configuration and middleware for Cryptons.com Backend
 Implements security headers, rate limiting, and CORS policies
 """
 import os

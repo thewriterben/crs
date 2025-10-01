@@ -1,5 +1,5 @@
 """
-Pytest configuration and fixtures for CRS backend tests
+Pytest configuration and fixtures for Cryptons.com backend tests
 """
 import pytest
 import sys
