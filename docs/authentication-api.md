@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CRS Marketplace authentication system provides secure user management with JWT token-based authentication, password encryption, and optional multi-factor authentication.
+The Cryptons.com Marketplace authentication system provides secure user management with JWT token-based authentication, password encryption, and optional multi-factor authentication.
 
 ## Base URL
 

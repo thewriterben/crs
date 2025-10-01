@@ -1,10 +1,10 @@
 #!/bin/bash
-# Health check script for CRS deployment
+# Health check script for Cryptons.com deployment
 # Run this to verify all services are running correctly
 
 set -e
 
-echo "🏥 CRS Health Check Starting..."
+echo "🏥 Cryptons.com Health Check Starting..."
 echo "=================================="
 
 # Colors for output

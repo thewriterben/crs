@@ -1,6 +1,6 @@
 # API Reference Guide
 
-Complete API reference for the CRS Cryptocurrency Marketplace, including all Phase 3 advanced features.
+Complete API reference for the Cryptons.com Cryptocurrency Marketplace, including all Phase 3 advanced features.
 
 **Base URL**: `http://localhost:5006` (Phase 3 API)  
 **API Version**: 3.0.0  

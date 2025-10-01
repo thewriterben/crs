@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the comprehensive testing infrastructure implemented for the CRS Cryptocurrency Marketplace. The testing ecosystem covers both frontend (React/Vite) and backend (Flask/Python) components with unit tests, integration tests, and automated CI/CD testing.
+This document describes the comprehensive testing infrastructure implemented for the Cryptons.com Cryptocurrency Marketplace. The testing ecosystem covers both frontend (React/Vite) and backend (Flask/Python) components with unit tests, integration tests, and automated CI/CD testing.
 
 ## Table of Contents
 

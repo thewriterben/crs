@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple backend server for CRS Marketplace
+Simple backend server for Cryptons.com Marketplace
 Uses only built-in Python libraries to avoid dependency issues
 """
 
@@ -64,7 +64,7 @@ class CORSRequestHandler(http.server.SimpleHTTPRequestHandler):
         data = {
             'status': 'healthy',
             'timestamp': datetime.now().isoformat(),
-            'service': 'CRS Marketplace Backend'
+            'service': 'Cryptons.com Marketplace Backend'
         }
         self.send_json_response(data)
 
@@ -256,7 +256,7 @@ def main():
     port = int(os.environ.get('PORT', 5000))
     
     with socketserver.TCPServer(("", port), CORSRequestHandler) as httpd:
-        print(f"CRS Marketplace Backend running on port {port}")
+        print(f"Cryptons.com Marketplace Backend running on port {port}")
         print(f"Health check: http://localhost:{port}/health")
         print(f"API endpoints available at: http://localhost:{port}/api/")
         try:

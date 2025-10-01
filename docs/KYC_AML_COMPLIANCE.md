@@ -1,6 +1,6 @@
 # KYC/AML Compliance Guide
 
-This document outlines the Know Your Customer (KYC) and Anti-Money Laundering (AML) compliance requirements and implementation guidelines for the CRS cryptocurrency marketplace.
+This document outlines the Know Your Customer (KYC) and Anti-Money Laundering (AML) compliance requirements and implementation guidelines for the Cryptons.com cryptocurrency marketplace.
 
 ## Table of Contents
 

@@ -10,11 +10,11 @@ class DatabaseConfig:
     """Database configuration class"""
     
     # PostgreSQL configuration (production)
-    POSTGRES_USER = os.environ.get('POSTGRES_USER', 'crs_user')
+    POSTGRES_USER = os.environ.get('POSTGRES_USER', 'cryptons_user')
     POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'change_this_password')
     POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
     POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
-    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'crs_db')
+    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'cryptons_db')
     
     # Build PostgreSQL URL
     POSTGRESQL_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"

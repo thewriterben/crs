@@ -1,7 +1,7 @@
 #!/bin/bash
 # Generate secure keys for production deployment
 
-echo "🔐 CRS Key Generator"
+echo "🔐 Cryptons.com Key Generator"
 echo "===================="
 echo ""
 

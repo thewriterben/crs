@@ -1,6 +1,6 @@
 # DeFi Integration Guide
 
-This document outlines the strategy for integrating decentralized finance (DeFi) protocols into the CRS cryptocurrency marketplace.
+This document outlines the strategy for integrating decentralized finance (DeFi) protocols into the Cryptons.com cryptocurrency marketplace.
 
 ## Table of Contents
 

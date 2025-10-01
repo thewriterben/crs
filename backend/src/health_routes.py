@@ -1,5 +1,5 @@
 """
-Health check and monitoring endpoints for CRS Backend
+Health check and monitoring endpoints for Cryptons.com Backend
 """
 from flask import Blueprint, jsonify
 from datetime import datetime
@@ -95,7 +95,7 @@ def info():
     Application information endpoint
     """
     return jsonify({
-        'name': 'CRS Cryptocurrency Marketplace API',
+        'name': 'Cryptons.com Cryptocurrency Marketplace API',
         'version': '1.0.0',
         'environment': os.environ.get('FLASK_ENV', 'development'),
         'timestamp': datetime.utcnow().isoformat(),

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-Before setting up the CRS (Cryptocurrency Marketplace) development environment, ensure you have the following installed:
+Before setting up the Cryptons.com (Cryptocurrency Marketplace) development environment, ensure you have the following installed:
 
 - **Node.js** (v18 or higher)
 - **Python** (v3.8 or higher)

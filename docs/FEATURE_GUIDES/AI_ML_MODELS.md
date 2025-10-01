@@ -1,6 +1,6 @@
 # Advanced AI/ML Models Guide
 
-Complete guide to using the advanced AI/ML models in the CRS Cryptocurrency Marketplace.
+Complete guide to using the advanced AI/ML models in the Cryptons.com Cryptocurrency Marketplace.
 
 **Version**: 3.0.0  
 **Phase**: 3 Complete ✅

@@ -1,7 +1,7 @@
 # Performance Optimization Summary
 
 ## Overview
-This document provides a summary of the performance optimizations implemented in the CRS platform, along with measurable results and verification steps.
+This document provides a summary of the performance optimizations implemented in the Cryptons.com platform, along with measurable results and verification steps.
 
 ## Implementation Summary
 

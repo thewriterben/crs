@@ -2,7 +2,7 @@
 
 ## Overview
 
-This implementation adds comprehensive cryptocurrency payment processing to the CRS platform with support for Bitcoin, Ethereum, USDT, and BNB.
+This implementation adds comprehensive cryptocurrency payment processing to the Cryptons.com platform with support for Bitcoin, Ethereum, USDT, and BNB.
 
 ## What's Been Implemented
 
@@ -259,4 +259,4 @@ For issues:
 
 ## License
 
-MIT License - Part of the CRS Cryptocurrency Marketplace project
+MIT License - Part of the Cryptons.com Cryptocurrency Marketplace project

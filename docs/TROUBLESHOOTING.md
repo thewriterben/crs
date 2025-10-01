@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide helps diagnose and resolve common issues in the CRS Cryptocurrency Marketplace.
+This guide helps diagnose and resolve common issues in the Cryptons.com Cryptocurrency Marketplace.
 
 ---
 
@@ -174,7 +174,7 @@ docker-compose logs backend | tail -50
 docker-compose restart backend
 
 # Check database
-docker-compose exec postgres psql -U crs_user -d crs_marketplace -c "SELECT 1"
+docker-compose exec postgres psql -U cryptons_user -d cryptons_marketplace -c "SELECT 1"
 
 # Check Redis
 docker-compose exec redis redis-cli ping
@@ -395,7 +395,7 @@ docker-compose exec frontend nginx -t
 docker-compose ps postgres
 
 # Try connecting manually
-docker-compose exec postgres psql -U crs_user -d crs_marketplace
+docker-compose exec postgres psql -U cryptons_user -d cryptons_marketplace
 
 # Check DATABASE_URL
 echo $DATABASE_URL
@@ -417,7 +417,7 @@ docker-compose up -d postgres
 3. **Database Doesn't Exist**:
 ```bash
 # Create database
-docker-compose exec postgres createdb -U crs_user crs_marketplace
+docker-compose exec postgres createdb -U cryptons_user cryptons_marketplace
 ```
 
 ### Issue: Migration Errors
@@ -436,7 +436,7 @@ docker-compose exec backend python -c "from src.models import db; from src.main 
 
 2. **Check Schema**:
 ```bash
-docker-compose exec postgres psql -U crs_user -d crs_marketplace -c "\dt"
+docker-compose exec postgres psql -U cryptons_user -d cryptons_marketplace -c "\dt"
 ```
 
 ### Issue: Database Performance
@@ -449,7 +449,7 @@ docker-compose exec postgres psql -U crs_user -d crs_marketplace -c "\dt"
 **Diagnosis**:
 ```bash
 # Check slow queries (PostgreSQL)
-docker-compose exec postgres psql -U crs_user -d crs_marketplace -c "SELECT query, calls, total_time, mean_time FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
+docker-compose exec postgres psql -U cryptons_user -d cryptons_marketplace -c "SELECT query, calls, total_time, mean_time FROM pg_stat_statements ORDER BY mean_time DESC LIMIT 10;"
 ```
 
 **Solutions**:
@@ -553,7 +553,7 @@ docker system prune -a --volumes
 docker network ls
 
 # Inspect network
-docker network inspect crs_crs-network
+docker network inspect crs_cryptons-network
 
 # Test connectivity
 docker-compose exec backend ping frontend

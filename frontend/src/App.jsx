@@ -50,7 +50,7 @@ function AppContent() {
         <header className="bg-gray-800 border-b border-gray-700">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <h1 className="text-xl font-bold text-white">CRS Marketplace</h1>
+              <h1 className="text-xl font-bold text-white">Cryptons.com Marketplace</h1>
               <div className="flex gap-2">
                 <Button 
                   onClick={() => { setAuthMode('login'); setShowAuth(true); }}
@@ -71,7 +71,7 @@ function AppContent() {
         </header>
         <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Welcome to CRS Marketplace</h2>
+            <h2 className="text-4xl font-bold mb-4">Welcome to Cryptons.com Marketplace</h2>
             <p className="text-xl text-gray-400 mb-8">
               AI-powered cryptocurrency trading platform with advanced portfolio optimization
             </p>
@@ -140,7 +140,7 @@ function AppContent() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <h1 className="text-xl font-bold text-white">CRS Marketplace</h1>
+                <h1 className="text-xl font-bold text-white">Cryptons.com Marketplace</h1>
               </div>
             </div>
             

@@ -1,6 +1,6 @@
 # Performance Optimization Guide
 
-This document describes the performance optimizations implemented in the CRS platform.
+This document describes the performance optimizations implemented in the Cryptons.com platform.
 
 ## Backend Optimizations
 

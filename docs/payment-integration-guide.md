@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CRS platform now includes comprehensive cryptocurrency payment processing capabilities, supporting multiple cryptocurrencies including Bitcoin (BTC), Ethereum (ETH), Tether (USDT), and Binance Coin (BNB).
+The Cryptons.com platform now includes comprehensive cryptocurrency payment processing capabilities, supporting multiple cryptocurrencies including Bitcoin (BTC), Ethereum (ETH), Tether (USDT), and Binance Coin (BNB).
 
 ## Features
 
