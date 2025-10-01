@@ -2,7 +2,7 @@
 
 ## Overview
 
-Successfully extracted and organized the existing marketplace resources in the repository to create a structured development environment for the cryptocurrency marketplace project (CRS).
+Successfully extracted and organized the existing marketplace resources in the repository to create a structured development environment for the cryptocurrency marketplace project (Cryptons.com).
 
 ## ✅ Completed Tasks
 

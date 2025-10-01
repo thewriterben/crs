@@ -93,7 +93,7 @@ class EnvValidator:
     POSTGRES_VARS = {
         'POSTGRES_USER': {
             'description': 'PostgreSQL username',
-            'default': 'crs_user'
+            'default': 'cryptons_user'
         },
         'POSTGRES_PASSWORD': {
             'description': 'PostgreSQL password',
@@ -109,7 +109,7 @@ class EnvValidator:
         },
         'POSTGRES_DB': {
             'description': 'PostgreSQL database name',
-            'default': 'crs_db'
+            'default': 'cryptons_db'
         },
     }
     

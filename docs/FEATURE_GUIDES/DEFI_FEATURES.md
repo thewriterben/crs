@@ -1,6 +1,6 @@
 # DeFi Integration Features Guide
 
-Complete guide to using DeFi features in the CRS Cryptocurrency Marketplace.
+Complete guide to using DeFi features in the Cryptons.com Cryptocurrency Marketplace.
 
 **Version**: 3.0.0  
 **Phase**: 3 Complete ✅

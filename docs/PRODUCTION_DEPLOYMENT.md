@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides comprehensive instructions for deploying the CRS Cryptocurrency Marketplace to production environments. It covers security hardening, monitoring setup, and best practices.
+This guide provides comprehensive instructions for deploying the Cryptons.com Cryptocurrency Marketplace to production environments. It covers security hardening, monitoring setup, and best practices.
 
 ## Prerequisites
 
@@ -73,7 +73,7 @@ JWT_SECRET_KEY=your-generated-jwt-secret-key
 For PostgreSQL (recommended):
 ```bash
 # Update .env
-DATABASE_URL=postgresql://username:password@postgres:5432/crs_db
+DATABASE_URL=postgresql://username:password@postgres:5432/cryptons_db
 ```
 
 ### 4. Build and Run
@@ -217,29 +217,29 @@ sudo -u postgres psql
 ```
 
 ```sql
-CREATE DATABASE crs_marketplace;
-CREATE USER crs_user WITH ENCRYPTED PASSWORD 'secure_password';
-GRANT ALL PRIVILEGES ON DATABASE crs_marketplace TO crs_user;
+CREATE DATABASE cryptons_marketplace;
+CREATE USER cryptons_user WITH ENCRYPTED PASSWORD 'secure_password';
+GRANT ALL PRIVILEGES ON DATABASE cryptons_marketplace TO cryptons_user;
 \q
 ```
 
 Update `.env`:
 ```bash
-DATABASE_URL=postgresql://crs_user:secure_password@localhost:5432/crs_marketplace
+DATABASE_URL=postgresql://cryptons_user:secure_password@localhost:5432/cryptons_marketplace
 ```
 
 ### MySQL Alternative
 
 ```sql
-CREATE DATABASE crs_marketplace CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'crs_user'@'localhost' IDENTIFIED BY 'secure_password';
-GRANT ALL PRIVILEGES ON crs_marketplace.* TO 'crs_user'@'localhost';
+CREATE DATABASE cryptons_marketplace CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'cryptons_user'@'localhost' IDENTIFIED BY 'secure_password';
+GRANT ALL PRIVILEGES ON cryptons_marketplace.* TO 'cryptons_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
 Update `.env`:
 ```bash
-DATABASE_URL=mysql://crs_user:secure_password@localhost:3306/crs_marketplace
+DATABASE_URL=mysql://cryptons_user:secure_password@localhost:3306/cryptons_marketplace
 ```
 
 ---
@@ -261,7 +261,7 @@ sudo systemctl status certbot.timer
 
 ### Nginx Configuration
 
-Create `/etc/nginx/sites-available/crs`:
+Create `/etc/nginx/sites-available/cryptons`:
 
 ```nginx
 upstream backend {
@@ -319,7 +319,7 @@ server {
 
 Enable site:
 ```bash
-sudo ln -s /etc/nginx/sites-available/crs /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/cryptons /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -352,7 +352,7 @@ View logs:
 docker-compose logs -f backend
 
 # Manual deployment
-tail -f /var/log/crs/backend.log
+tail -f /var/log/cryptons/backend.log
 ```
 
 #### Frontend Access Logs
@@ -392,14 +392,14 @@ Recommended monitoring solutions:
 ```bash
 # Create backup script /usr/local/bin/backup-crs-db.sh
 #!/bin/bash
-BACKUP_DIR="/var/backups/crs"
+BACKUP_DIR="/var/backups/cryptons"
 DATE=$(date +%Y%m%d_%H%M%S)
 mkdir -p $BACKUP_DIR
 
-pg_dump -U crs_user crs_marketplace | gzip > $BACKUP_DIR/crs_db_$DATE.sql.gz
+pg_dump -U cryptons_user cryptons_marketplace | gzip > $BACKUP_DIR/cryptons_db_$DATE.sql.gz
 
 # Keep only last 30 days
-find $BACKUP_DIR -name "crs_db_*.sql.gz" -mtime +30 -delete
+find $BACKUP_DIR -name "cryptons_db_*.sql.gz" -mtime +30 -delete
 ```
 
 Set up cron job:
@@ -412,7 +412,7 @@ Set up cron job:
 
 ```bash
 # Extract and restore
-gunzip < /var/backups/crs/crs_db_20240101_020000.sql.gz | psql -U crs_user crs_marketplace
+gunzip < /var/backups/cryptons/cryptons_db_20240101_020000.sql.gz | psql -U cryptons_user cryptons_marketplace
 ```
 
 ### Application Backups

@@ -1,6 +1,6 @@
 # Real-time Data Streaming with WebSockets
 
-This document describes the WebSocket implementation for real-time data streaming in the CRS (Cryptocurrency Marketplace) application.
+This document describes the WebSocket implementation for real-time data streaming in the Cryptons.com (Cryptocurrency Marketplace) application.
 
 ## Overview
 
@@ -390,7 +390,7 @@ Fallback to polling is automatic via socket.io.
 
 ## Authentication
 
-The CRS WebSocket implementation supports token-based authentication using JWT (JSON Web Tokens) to secure real-time connections. This section describes how to authenticate WebSocket connections.
+The Cryptons.com WebSocket implementation supports token-based authentication using JWT (JSON Web Tokens) to secure real-time connections. This section describes how to authenticate WebSocket connections.
 
 ### Authentication Flow
 
@@ -1411,7 +1411,7 @@ Subscribe to additional symbols.
 
 ## License
 
-This WebSocket implementation is part of the CRS project under MIT License.
+This WebSocket implementation is part of the Cryptons.com project under MIT License.
 
 ## Support
 

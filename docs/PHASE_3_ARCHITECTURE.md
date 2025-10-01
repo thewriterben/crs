@@ -4,7 +4,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    CRS Cryptocurrency Marketplace                │
+│                    Cryptons.com Cryptocurrency Marketplace                │
 │                         Phase 3 Architecture                     │
 └─────────────────────────────────────────────────────────────────┘
 

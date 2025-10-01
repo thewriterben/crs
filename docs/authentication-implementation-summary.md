@@ -1,7 +1,7 @@
 # User Authentication Implementation Summary
 
 ## Overview
-This document summarizes the complete user authentication system implemented for the CRS cryptocurrency marketplace platform.
+This document summarizes the complete user authentication system implemented for the Cryptons.com cryptocurrency marketplace platform.
 
 ## Files Created/Modified
 

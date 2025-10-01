@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines security best practices for the CRS Cryptocurrency Marketplace. Following these guidelines will help protect your application and user data.
+This document outlines security best practices for the Cryptons.com Cryptocurrency Marketplace. Following these guidelines will help protect your application and user data.
 
 ---
 
@@ -309,8 +309,8 @@ networks:
 
 ```sql
 -- Create limited privilege user
-CREATE USER crs_user WITH PASSWORD 'strong_password';
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO crs_user;
+CREATE USER cryptons_user WITH PASSWORD 'strong_password';
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO cryptons_user;
 ```
 
 ### Secrets Management

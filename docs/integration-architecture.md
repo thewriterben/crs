@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines how the three main components of the CRS (Cryptocurrency Marketplace) project are integrated:
+This document outlines how the three main components of the Cryptons.com (Cryptocurrency Marketplace) project are integrated:
 
 1. **AI Marketplace** - Advanced trading platform with ML capabilities
 2. **Crypto Shop** - Modern e-commerce interface with comprehensive UI components

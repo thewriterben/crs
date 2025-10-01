@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CRS Cryptocurrency Marketplace API provides endpoints for authentication, AI-powered market analysis, trading bot management, and cryptocurrency operations.
+The Cryptons.com Cryptocurrency Marketplace API provides endpoints for authentication, AI-powered market analysis, trading bot management, and cryptocurrency operations.
 
 **Base URLs**: 
 - **Core API**: `http://localhost:5000` (Development) or `https://api.yourdomain.com` (Production)
@@ -302,7 +302,7 @@ Get application information and available endpoints.
 **Response** (200 OK):
 ```json
 {
-  "name": "CRS Cryptocurrency Marketplace API",
+  "name": "Cryptons.com Cryptocurrency Marketplace API",
   "version": "1.0.0",
   "environment": "production",
   "timestamp": "2024-01-20T14:30:00Z",

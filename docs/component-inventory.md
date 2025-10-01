@@ -1,6 +1,6 @@
 # Component Inventory
 
-This document provides a comprehensive overview of all components in the CRS (Cryptocurrency Marketplace) project, their dependencies, usage patterns, and optimization opportunities.
+This document provides a comprehensive overview of all components in the Cryptons.com (Cryptocurrency Marketplace) project, their dependencies, usage patterns, and optimization opportunities.
 
 ## Overview
 

@@ -1,6 +1,6 @@
 # AI/ML Enhancement Strategy
 
-This document outlines the strategy for enhancing AI/ML capabilities in the CRS cryptocurrency marketplace.
+This document outlines the strategy for enhancing AI/ML capabilities in the Cryptons.com cryptocurrency marketplace.
 
 ## Table of Contents
 

@@ -1,6 +1,6 @@
 # Developer Guide
 
-Complete developer guide for contributing to the CRS Cryptocurrency Marketplace project, including Phase 3 advanced features.
+Complete developer guide for contributing to the Cryptons.com Cryptocurrency Marketplace project, including Phase 3 advanced features.
 
 **Version**: 3.0.0  
 **Last Updated**: September 30, 2024
@@ -841,7 +841,7 @@ docker ps | grep postgres
 docker-compose up -d postgres
 
 # Check connection
-psql -h localhost -U crs_user -d crs_db
+psql -h localhost -U cryptons_user -d cryptons_db
 ```
 
 #### 3. Redis Connection Issues
@@ -920,4 +920,4 @@ PYTHONPATH=$(pwd) python -m pdb api/phase3_api.py
 
 **Version**: 3.0.0  
 **Last Updated**: September 30, 2024  
-**Maintainers**: CRS Development Team
+**Maintainers**: Cryptons.com Development Team

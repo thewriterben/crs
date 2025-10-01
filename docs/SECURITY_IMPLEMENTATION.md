@@ -1,6 +1,6 @@
 # Security Implementation Guide
 
-This document provides comprehensive security implementation guidelines for the CRS cryptocurrency marketplace.
+This document provides comprehensive security implementation guidelines for the Cryptons.com cryptocurrency marketplace.
 
 ## Table of Contents
 
