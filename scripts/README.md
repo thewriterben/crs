@@ -186,9 +186,9 @@ Available: 2.5G / 8.0G
 📊 Container Stats
 ------------------
 NAME              CPU %     MEM USAGE
-crs-backend       5.2%      256MB
-crs-frontend      1.1%      64MB
-crs-redis         0.5%      32MB
+cryptons-backend       5.2%      256MB
+cryptons-frontend      1.1%      64MB
+cryptons-redis         0.5%      32MB
 
 ==================================
 ✅ Health check complete!

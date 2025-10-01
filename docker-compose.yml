@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: crs-postgres
+    container_name: cryptons-postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-crs_user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-crs_password}
@@ -23,7 +23,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: crs-redis
+    container_name: cryptons-redis
     ports:
       - "6379:6379"
     volumes:
@@ -41,7 +41,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: crs-backend
+    container_name: cryptons-backend
     ports:
       - "5000:5000"
     environment:
@@ -73,7 +73,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: crs-frontend
+    container_name: cryptons-frontend
     ports:
       - "8080:8080"
     environment:
@@ -90,7 +90,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: crs-redis
+    container_name: cryptons-redis
     ports:
       - "6379:6379"
     volumes:
