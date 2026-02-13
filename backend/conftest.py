@@ -17,7 +17,7 @@ from src.trading_models import Payment, EcommerceOrder
 @pytest.fixture(scope='session')
 def app():
     """Create application for testing"""
-    app = create_app({
+    app = create_app(config={
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'JWT_SECRET_KEY': 'test-secret-key',
