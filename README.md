@@ -60,13 +60,25 @@ The Cryptons.com platform now includes cutting-edge features ready for productio
 - **Dollar-Cost Averaging** - Automated DCA schedules (daily/weekly/monthly)
 - **Stop-Loss** - Trailing stops and take-profit automation
 
+#### 💎 CFV Payment System (NEW)
+- **12 DGF Cryptocurrencies** - XNO, NEAR, ICP, EGLD, DGB, DASH, XCH, XEC, XMR, RVN, DGD, BTC-LN
+- **Dynamic Discounts** - Up to 10% off based on Crypto Fair Value calculations
+- **Fair Value Analytics** - Real-time valuation status (undervalued/fair/overvalued)
+- **Tiered Discount System**:
+  - ≥50% undervalued: 10% discount
+  - 30-49% undervalued: 7% discount
+  - 15-29% undervalued: 5% discount
+  - <15% undervalued: 2% discount
+- **Smart Payment Selection** - Visual indicators for best value cryptocurrencies
+- **Integrated E-commerce** - Full order and payment management with CFV metrics
+
 #### Core Platform Features
 - AI-powered portfolio optimization with Modern Portfolio Theory
 - **Real-time data streaming via WebSocket** - Live market feeds and instant updates
 - Real-time sentiment analysis and market intelligence
 - Advanced trading engine with automated bots
 - Professional charting and technical analysis
-- **Cryptocurrency payment processing (BTC, ETH, USDT, BNB)** ✨
+- **Advanced Cryptocurrency Payments** - CFV-enabled payment system with 12 DGF coins ✨
 - Secure cryptocurrency transaction handling
 - Modern responsive UI with dark theme support
 - **User Authentication & Security**
@@ -134,6 +146,8 @@ crs/
 - [x] Implement DeFi integrations (DEX, yield farming, staking, liquidity pools)
 - [x] Add social trading features (copy trading, signals, portfolio sharing)
 - [x] Portfolio automation (rebalancing, risk management, DCA, stop-loss)
+- [x] CFV payment system with 12 DGF cryptocurrencies
+- [x] Dynamic discount system based on fair value calculations
 
 ### Phase 4: Deployment ✅ PRODUCTION READY
 - [x] Production build configuration
@@ -226,6 +240,23 @@ curl http://localhost:5006/api/phase3/status
 curl http://localhost:5006/api/phase3/health
 ```
 
+#### CFV Payment System Setup
+```bash
+# Run database migration for CFV models
+cd backend
+python migrations/add_cfv_models.py upgrade
+python migrations/add_cfv_models.py validate
+
+# Configure CFV environment variables in backend/.env
+# CFV_CALCULATOR_URL=http://localhost:3000
+# CFV_AGENT_URL=http://localhost:3001
+# CFV_DISCOUNT_ENABLED=true
+
+# Test CFV endpoints
+curl http://localhost:5000/api/cfv/coins
+curl http://localhost:5000/api/cfv/calculate/XNO
+```
+
 #### Frontend Setup
 ```bash
 cd frontend
@@ -298,6 +329,10 @@ Comprehensive documentation is available in the `docs/` directory:
 - **[AI/ML Models Guide](docs/FEATURE_GUIDES/AI_ML_MODELS.md)** (NEW) - LSTM, Transformer, Ensemble, BERT usage
 - **[DeFi Features Guide](docs/FEATURE_GUIDES/DEFI_FEATURES.md)** (NEW) - DEX, Farming, Staking, Liquidity Pools
 - **[Social Trading Guide](docs/FEATURE_GUIDES/SOCIAL_TRADING.md)** (NEW) - Copy trading, Signals, Portfolio sharing
+- **[CFV Payment System Guide](docs/USER_GUIDE.md)** (NEW) - Crypto Fair Value discounts and payment processing
+- **[CFV Integration Guide](docs/CFV_INTEGRATION.md)** (NEW) - Developer guide for CFV system integration
+- **[API Documentation](docs/API.md)** (NEW) - Complete CFV API reference with examples
+- **[Database Migration Guide](docs/MIGRATIONS.md)** (NEW) - CFV database schema and migration procedures
 - **[Portfolio Automation Guide](docs/FEATURE_GUIDES/PORTFOLIO_AUTOMATION.md)** (NEW) - Rebalancing, Risk, DCA, Stop-Loss
 
 ### Upgrade & Architecture
