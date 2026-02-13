@@ -11,13 +11,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from src.main import create_app
 from src.models import db, User
+from src.trading_models import Payment, EcommerceOrder
 
 
 @pytest.fixture(scope='session')
 def app():
     """Create application for testing"""
-    app = create_app()
-    app.config.update({
+    app = create_app(config={
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'JWT_SECRET_KEY': 'test-secret-key',

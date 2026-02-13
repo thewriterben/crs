@@ -35,7 +35,9 @@ def api_status():
             'portfolio_optimization': True,
             'sentiment_analysis': True,
             'advanced_charting': True,
-            'crypto_payments': True
+            'crypto_payments': True,
+            'cfv_discounts': True,
+            'supported_cryptos': 12
         }
     })
 
@@ -74,6 +76,21 @@ except ImportError as e:
         return jsonify({
             'error': 'Payment services not available',
             'message': 'Payment modules are being configured'
+        }), 503
+
+# Try to import and register CFV API modules
+try:
+    from api.cfv_api import cfv_api
+    app.register_blueprint(cfv_api)
+    print("CFV API routes registered successfully")
+except ImportError as e:
+    print(f"Warning: Could not import CFV modules: {e}")
+    
+    @app.route('/api/cfv/<path:path>')
+    def cfv_fallback(path):
+        return jsonify({
+            'error': 'CFV services not available',
+            'message': 'CFV modules are being configured'
         }), 503
 
 # Marketplace API endpoints

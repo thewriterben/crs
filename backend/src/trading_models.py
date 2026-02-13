@@ -189,3 +189,130 @@ class AuditLog(db.Model):
     __table_args__ = (
         db.Index('idx_user_event_created', 'user_id', 'event_type', 'created_at'),
     )
+
+
+class EcommerceOrder(db.Model):
+    """E-commerce order model with CFV discount support"""
+    __tablename__ = 'ecommerce_orders'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.String(64), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    # Order details
+    items = db.Column(db.JSON, nullable=False)  # Array of {product_id, name, quantity, price}
+    subtotal = db.Column(db.Float, nullable=False)
+    original_price_usd = db.Column(db.Float, nullable=False)  # Price before CFV discount
+    
+    # CFV discount information
+    cfv_discount = db.Column(db.Float, default=0.0)  # Discount percentage (0-100)
+    cfv_metrics = db.Column(db.JSON)  # {valuationStatus, valuationPercent, calculatedAt}
+    
+    # Final pricing
+    total = db.Column(db.Float, nullable=False)  # After discount
+    
+    # Status and fulfillment
+    status = db.Column(db.String(20), default='pending')  # pending, paid, processing, shipped, completed, cancelled
+    
+    # Shipping information
+    shipping_address = db.Column(db.JSON)
+    shipping_method = db.Column(db.String(50))
+    shipping_cost = db.Column(db.Float, default=0.0)
+    tracking_number = db.Column(db.String(100))
+    
+    # Timestamps
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    paid_at = db.Column(db.DateTime)
+    shipped_at = db.Column(db.DateTime)
+    completed_at = db.Column(db.DateTime)
+    
+    # Relationships
+    payments = db.relationship('Payment', backref='ecommerce_order', lazy=True)
+    
+    def to_dict(self):
+        """Convert order to dictionary"""
+        return {
+            'order_id': self.order_id,
+            'user_id': self.user_id,
+            'items': self.items,
+            'subtotal': self.subtotal,
+            'original_price_usd': self.original_price_usd,
+            'cfv_discount': self.cfv_discount,
+            'cfv_metrics': self.cfv_metrics,
+            'total': self.total,
+            'status': self.status,
+            'shipping_address': self.shipping_address,
+            'shipping_method': self.shipping_method,
+            'shipping_cost': self.shipping_cost,
+            'tracking_number': self.tracking_number,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            'paid_at': self.paid_at.isoformat() if self.paid_at else None
+        }
+
+
+class Payment(db.Model):
+    """Payment model with CFV metrics support"""
+    __tablename__ = 'payments'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    payment_id = db.Column(db.String(64), unique=True, nullable=False)
+    order_id = db.Column(db.Integer, db.ForeignKey('ecommerce_orders.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    
+    # Payment details
+    cryptocurrency = db.Column(db.String(20), nullable=False)  # XNO, NEAR, ICP, EGLD, DGB, DASH, XCH, XEC, XMR, RVN, DGD, BTC-LN
+    amount_crypto = db.Column(db.Float, nullable=False)  # Amount in cryptocurrency
+    amount_usd = db.Column(db.Float, nullable=False)  # USD equivalent
+    
+    # CFV metrics
+    fair_value = db.Column(db.Float)  # CFV calculated fair value at transaction time
+    cfv_discount = db.Column(db.Float, default=0.0)  # Percentage discount applied
+    cfv_metrics = db.Column(db.JSON)  # {valuationStatus, valuationPercent, calculatedAt}
+    
+    # Payment address and transaction
+    payment_address = db.Column(db.String(255), nullable=False)
+    transaction_hash = db.Column(db.String(255))
+    confirmations = db.Column(db.Integer, default=0)
+    
+    # Network fees
+    network_fee = db.Column(db.Float, default=0.0)
+    total_amount = db.Column(db.Float, nullable=False)  # amount_crypto + network_fee
+    
+    # Status tracking
+    status = db.Column(db.String(20), default='pending')  # pending, processing, completed, failed, expired
+    
+    # Timestamps
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    confirmed_at = db.Column(db.DateTime)
+    completed_at = db.Column(db.DateTime)
+    
+    # Metadata
+    metadata = db.Column(db.JSON)
+    
+    def to_dict(self):
+        """Convert payment to dictionary"""
+        return {
+            'payment_id': self.payment_id,
+            'order_id': self.order_id,
+            'user_id': self.user_id,
+            'cryptocurrency': self.cryptocurrency,
+            'amount_crypto': self.amount_crypto,
+            'amount_usd': self.amount_usd,
+            'fair_value': self.fair_value,
+            'cfv_discount': self.cfv_discount,
+            'cfv_metrics': self.cfv_metrics,
+            'payment_address': self.payment_address,
+            'transaction_hash': self.transaction_hash,
+            'confirmations': self.confirmations,
+            'network_fee': self.network_fee,
+            'total_amount': self.total_amount,
+            'status': self.status,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'expires_at': self.expires_at.isoformat() if self.expires_at else None,
+            'confirmed_at': self.confirmed_at.isoformat() if self.confirmed_at else None,
+            'completed_at': self.completed_at.isoformat() if self.completed_at else None,
+            'metadata': self.metadata
+        }
