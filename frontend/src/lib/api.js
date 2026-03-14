@@ -165,8 +165,66 @@ export const api = {
   // AI endpoints
   ai: {
     getDashboardData: () => apiRequest('/ai/dashboard-data'),
-    getStatus: () => apiRequest('/ai/status')
-  }
+    getStatus: () => apiRequest('/ai/status'),
+    getPredictions: (symbol) => apiRequest(`/ai/predictions/${symbol}`),
+    getSentiment: (symbol) => apiRequest(`/ai/sentiment/${symbol}`),
+    getTradingSignals: () => apiRequest('/ai/trading-signals'),
+  },
+
+  // DeFi endpoints
+  defi: {
+    getLiquidityPools: () => apiRequest('/defi/liquidity-pools'),
+    getYieldFarming: () => apiRequest('/defi/yield-farming'),
+    getStakingOptions: () => apiRequest('/defi/staking'),
+    getDexRates: (fromToken, toToken, amount) =>
+      apiRequest(`/defi/dex/rates?from=${fromToken}&to=${toToken}&amount=${amount}`),
+    executeSwap: (swapData) =>
+      apiRequest('/defi/dex/swap', { method: 'POST', body: JSON.stringify(swapData) }),
+  },
+
+  // Social trading endpoints
+  social: {
+    getLeaderboard: () => apiRequest('/social/leaderboard'),
+    getSignals: () => apiRequest('/social/signals'),
+    getTraderProfile: (traderId) => apiRequest(`/social/traders/${traderId}`),
+    copyTrade: (traderId) =>
+      apiRequest('/social/copy-trade', { method: 'POST', body: JSON.stringify({ traderId }) }),
+    sharePortfolio: (portfolioData) =>
+      apiRequest('/social/share', { method: 'POST', body: JSON.stringify(portfolioData) }),
+  },
+
+  // Portfolio endpoints
+  portfolio: {
+    getSummary: (token) => apiRequest('/portfolio/summary', { headers: { Authorization: `Bearer ${token}` } }),
+    getHoldings: (token) => apiRequest('/portfolio/holdings', { headers: { Authorization: `Bearer ${token}` } }),
+    rebalance: (token, strategy) =>
+      apiRequest('/portfolio/rebalance', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ strategy }),
+      }),
+    setStopLoss: (token, params) =>
+      apiRequest('/portfolio/stop-loss', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify(params),
+      }),
+    setupDCA: (token, params) =>
+      apiRequest('/portfolio/dca', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify(params),
+      }),
+  },
+
+  // CFV payment endpoints
+  cfv: {
+    getSupportedCurrencies: () => apiRequest('/cfv/currencies'),
+    createPayment: (paymentData) =>
+      apiRequest('/cfv/payments', { method: 'POST', body: JSON.stringify(paymentData) }),
+    getPaymentStatus: (paymentId) => apiRequest(`/cfv/payments/${paymentId}`),
+    getDiscounts: () => apiRequest('/cfv/discounts'),
+  },
 };
 
 // Authentication API

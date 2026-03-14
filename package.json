@@ -1,6 +1,6 @@
 {
   "name": "cryptocurrency-marketplace",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "AI-powered cryptocurrency marketplace with trading bots, portfolio optimization, and e-commerce features.",
   "private": true,
   "workspaces": [

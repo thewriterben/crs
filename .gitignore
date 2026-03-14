@@ -173,3 +173,6 @@ Thumbs.db
 *.tar
 *.gz
 !deployment/*.zip
+
+# Backup files
+*.backup
