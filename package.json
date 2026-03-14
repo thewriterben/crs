@@ -28,7 +28,8 @@
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json frontend/package-lock.json"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "jsdom": "^28.1.0"
   },
   "keywords": [
     "cryptocurrency",
