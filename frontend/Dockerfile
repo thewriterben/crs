@@ -4,26 +4,28 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy workspace package files (root lockfile ensures reproducible builds)
+COPY package.json package-lock.json ./
+COPY frontend/package.json ./frontend/
 
-# Install dependencies (use npm install since lockfile is at workspace root)
-RUN npm install --omit=dev
+# Install all dependencies including devDependencies for the build
+RUN npm ci --workspace=frontend
 
-# Copy source code
-COPY . .
+# Copy frontend source code
+COPY frontend/ ./frontend/
 
 # Build the application
+WORKDIR /app/frontend
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine
 
 # Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built assets from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/frontend/dist /usr/share/nginx/html
 
 # Create non-root user
 RUN adduser -D -u 1000 appuser && \
