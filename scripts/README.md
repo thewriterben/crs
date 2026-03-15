@@ -232,14 +232,58 @@ cd /path/to/crs
 ./scripts/health-check.sh
 ```
 
-## Additional Scripts (Coming Soon)
+## Additional Scripts
 
-Future utility scripts planned:
-- `deploy.sh` - Automated deployment with rollback
-- `backup.sh` - Database and configuration backup
-- `restore.sh` - Restore from backup
-- `update.sh` - Update dependencies
-- `monitor.sh` - Continuous monitoring
+### deploy.sh
+
+Automated deployment with optional rollback support.
+
+**Usage**:
+```bash
+./scripts/deploy.sh [--env production] [--rollback]
+```
+
+**Options**:
+- `--env <env>` — Target environment (default: `production`)
+- `--rollback` — Roll back to the previous deployment
+
+### backup.sh
+
+Backs up the PostgreSQL database, Redis data, and masked configuration.
+
+**Usage**:
+```bash
+./scripts/backup.sh [--output-dir <path>]
+```
+
+**Output**: `backups/backup_TIMESTAMP.tar.gz` (last 7 backups retained automatically)
+
+### restore.sh
+
+Restores the database and Redis from a backup archive created by `backup.sh`.
+
+**Usage**:
+```bash
+./scripts/restore.sh --backup backups/backup_20260315_120000.tar.gz
+```
+
+### update.sh
+
+Updates frontend npm packages and/or backend pip dependencies.
+
+**Usage**:
+```bash
+./scripts/update.sh [--frontend] [--backend] [--all]
+```
+
+### monitor.sh
+
+Continuous monitoring of container health, API endpoints, disk, and memory.
+
+**Usage**:
+```bash
+./scripts/monitor.sh [--interval 60] [--once] [--log monitor.log]
+```
 
 ## Contributing
 
@@ -261,4 +305,4 @@ When adding new scripts:
 
 ---
 
-**Last Updated**: January 2025
+**Last Updated**: March 2026
