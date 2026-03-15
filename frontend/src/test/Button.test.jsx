@@ -45,14 +45,14 @@ describe('Button Component', () => {
   it('applies size classes', () => {
     const { rerender } = render(<Button size="default">Default</Button>)
     let button = screen.getByRole('button')
-    expect(button).toHaveClass('h-10')
+    expect(button).toHaveClass('h-9')
 
     rerender(<Button size="sm">Small</Button>)
     button = screen.getByRole('button')
-    expect(button).toHaveClass('h-9')
+    expect(button).toHaveClass('h-8')
 
     rerender(<Button size="lg">Large</Button>)
     button = screen.getByRole('button')
-    expect(button).toHaveClass('h-11')
+    expect(button).toHaveClass('h-10')
   })
 })

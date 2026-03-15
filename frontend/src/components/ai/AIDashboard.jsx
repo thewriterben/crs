@@ -10,6 +10,7 @@ const AIDashboard = () => {
   const [selectedSymbol, setSelectedSymbol] = useState('BTC');
   const [activeTab, setActiveTab] = useState('overview');
 
+  const fetchDashboardData = useCallback(async () => {
     try {
       const data = await api.ai.getDashboardData();
       setDashboardData(data);
